@@ -21,7 +21,7 @@ This Spring Boot application provides a comprehensive set of APIs for user manag
 
 *   Java Development Kit (JDK) 17 or higher.
 *   Maven or Gradle (for dependency management).
-*   A running instance of the [Voice Embedding Flask API](README.md) (refer to its README for setup instructions).
+*   A running instance of the [Voice Embedding API](README.md) (refer to its README for setup instructions).
 *   A database (e.g., PostgreSQL, MySQL, H2) configured for Spring Boot.
 
 ### Clone the Repository
