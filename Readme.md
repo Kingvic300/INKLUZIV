@@ -1,4 +1,4 @@
-# User Management and Voice Authentication Spring Boot API
+#    INKLUZIV APP
 
 ## Overview
 
