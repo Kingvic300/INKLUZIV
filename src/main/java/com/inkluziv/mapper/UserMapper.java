@@ -62,7 +62,7 @@ public class UserMapper {
     public static OTPResponse mapToOtpSentResponse(String otp, String email, String message) {
         return OTPMapper.mapToOTPResponse(otp, message, email);
     }
-    public static FoundResponse mapToFoundResponse(String message, Long id){
+    public static FoundResponse mapToFoundResponse(String message, String id){
         FoundResponse foundResponse = new FoundResponse();
         foundResponse.setMessage(message);
         foundResponse.setId(id);

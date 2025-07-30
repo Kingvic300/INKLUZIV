@@ -23,7 +23,7 @@ public class TokenBlacklistServiceImpl implements TokenBlacklistService{
     }
 
     @Override
-    public void blacklistAllUserTokens(Long userId) {
+    public void blacklistAllUserTokens(String userId) {
         String key = USER_TOKENS_PREFIX + userId;
         redisTemplate.opsForValue().set(key, String.valueOf(System.currentTimeMillis()), Duration.ofDays(30));
     }

@@ -175,7 +175,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public FoundResponse findUserById(Long id){
+    public FoundResponse findUserById(String id){
         Optional<User> user = userRepository.findById(id);
         if(user.isEmpty()){
             throw new UserNotFoundException("User not found with id");

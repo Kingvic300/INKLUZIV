@@ -19,7 +19,7 @@ public interface UserService {
 
     ResetPasswordResponse sendResetOtp(ResetPasswordRequest resetPasswordRequest);
 
-    FoundResponse findUserById(Long id);
+    FoundResponse findUserById(String id);
 
     VoiceRegistrationResponse voiceSignup(VoiceSignupRequest request);
 
