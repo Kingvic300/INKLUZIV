@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService {
 
         pendingUserRepository.save(pendingUser);
 
-        return UserMapper.mapToOtpSentResponse("OTP sent successfully. Please verify to complete registration.", request.getEmail());
+        return UserMapper.mapToOtpSentResponse( pendingUser.getOtp(),"OTP sent successfully. Please verify to complete registration.", request.getEmail());
     }
 
     @Override
