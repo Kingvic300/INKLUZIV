@@ -34,4 +34,8 @@ public interface UserService {
     VoiceAuthResponse enableVoiceAuthentication(EnableVoiceAuthRequest request);
 
     VoiceAuthResponse disableVoiceAuthentication();
+
+    VoiceAuthResponse enrollVoiceSample(VoiceEnrollRequest request);
+
+    VoiceAuthResponse verifyVoiceSample(VoiceVerifyRequest request);
 }

@@ -108,4 +108,15 @@ public class UserController {
         LogoutResponse response = userService.logoutFromAllDevices();
         return ResponseEntity.ok(response);
     }
+
+    @PostMapping("/enroll-voice")
+    public ResponseEntity<VoiceAuthResponse> enrollVoice(@ModelAttribute VoiceEnrollRequest request) {
+        return ResponseEntity.ok(userService.enrollVoiceSample(request));
+    }
+
+    @PostMapping("/verify-voice")
+    public ResponseEntity<VoiceAuthResponse> verifyVoice(@ModelAttribute VoiceVerifyRequest request) {
+        return ResponseEntity.ok(userService.verifyVoiceSample(request));
+    }
+
 }

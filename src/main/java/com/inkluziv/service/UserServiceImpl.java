@@ -210,7 +210,7 @@ public class UserServiceImpl implements UserService {
 
             PendingUser pendingUser =  new PendingUser();
             pendingUser.setEmail(request.getEmail());
-            pendingUser.setVoicePrint(embedding.getVoicePrint().toString());
+            pendingUser.setVoicePrint(embedding.getVoicePrint());
             pendingUser.setPassword(generatedPassword);
             pendingUser.setOtp(otpService.sendOtp(request.getEmail()).getOtp());
             pendingUser.setRole(Role.valueOf(request.getRole()));
@@ -360,17 +360,7 @@ public class UserServiceImpl implements UserService {
             if(voicePrint.getEmbedding() == null){
                 throw new VoiceProcessingFailedException("voice cannot be null");
             }
-            Embedding embedding = new Embedding();
-            embedding.setId(voicePrint.getEmbedding().getId());
-            embedding.setCreatedAt(voicePrint.getEmbedding().getCreatedAt());
-            embedding.setVoicePrint(voicePrint.getEmbedding().getVoicePrint());
-
-            embeddingRepository.save(embedding);
-            user.setVoicePrint(embedding.getVoicePrint().toString());
-            user.setVoiceAuthEnabled(true);
-            user.setUpdatedAt(LocalDateTime.now());
-
-            userRepository.save(user);
+            embeddingObjectCreation(user, voicePrint);
 
             return UserMapper.mapToVoiceAuthResponse("Voice authentication enabled successfully", email);
 
@@ -403,6 +393,71 @@ public class UserServiceImpl implements UserService {
 
         return UserMapper.mapToVoiceAuthResponse("Voice authentication disabled successfully", email);
     }
+
+    @Override
+    public VoiceAuthResponse enrollVoiceSample(VoiceEnrollRequest request) {
+        Optional<User> existingUser = userRepository.findByEmail(request.getEmail());
+        if (existingUser.isEmpty()) {
+            throw new UserNotFoundException("User not found");
+        }
+
+        User user = existingUser.get();
+
+        try {
+            EmbeddingResponse voicePrint = voiceAuthenticationService.extractVoiceFeatures(request.getVoiceSample());
+
+            if (voicePrint.getEmbedding() == null) {
+                throw new VoiceProcessingFailedException("Failed to extract voice features");
+            }
+
+            embeddingObjectCreation(user, voicePrint);
+
+            return UserMapper.mapToVoiceAuthResponse("Voice enrolled successfully", request.getEmail());
+
+        } catch (IOException e) {
+            throw new VoiceProcessingFailedException("Failed to process voice sample");
+        }
+    }
+
+    private void embeddingObjectCreation(User user, EmbeddingResponse voicePrint) {
+        Embedding embedding = new Embedding();
+        embedding.setId(voicePrint.getEmbedding().getId());
+        embedding.setCreatedAt(voicePrint.getEmbedding().getCreatedAt());
+        embedding.setVoicePrint(voicePrint.getEmbedding().getVoicePrint());
+
+        embeddingRepository.save(embedding);
+        user.setVoicePrint(embedding.getVoicePrint());
+        user.setVoiceAuthEnabled(true);
+        user.setUpdatedAt(LocalDateTime.now());
+
+        userRepository.save(user);
+    }
+
+    @Override
+    public VoiceAuthResponse verifyVoiceSample(VoiceVerifyRequest request) {
+        Optional<User> existingUser = userRepository.findByEmail(request.getEmail());
+        if (existingUser.isEmpty()) {
+            throw new UserNotFoundException("User not found");
+        }
+
+        User user = existingUser.get();
+        if (!user.isVoiceAuthEnabled() || user.getVoicePrint() == null) {
+            throw new VoiceAuthenticationException("Voice not enrolled for user");
+        }
+
+        try {
+            boolean matched = voiceAuthenticationService.verifyVoice(request.getVoiceSample(), user.getVoicePrint());
+            if (!matched) {
+                return UserMapper.mapToVoiceAuthResponse("Voice does not match", request.getEmail());
+            }
+
+            return UserMapper.mapToVoiceAuthResponse("Voice verified successfully", request.getEmail());
+
+        } catch (IOException e) {
+            throw new VoiceProcessingFailedException("Failed to process voice sample");
+        }
+    }
+
 
 
     private static Authentication getAuthentication() {
