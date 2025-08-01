@@ -66,7 +66,7 @@ public class VoiceAuthenticationServiceImpl implements VoiceAuthenticationServic
 
             Embedding embedding = new Embedding();
             embedding.setVoicePrint(response.getBody().getEmbedding().toString());
-            embedding.setCreatedAt(String.valueOf(LocalDateTime.now()));
+            embedding.setCreatedAt(LocalDateTime.now());
             embedding.setId(response.getBody().getFile_id());
             embedding.setFeature_count(response.getBody().getFeature_count());
             embeddingRepository.save(embedding);

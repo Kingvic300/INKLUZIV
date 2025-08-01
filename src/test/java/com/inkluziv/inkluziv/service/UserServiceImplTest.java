@@ -158,7 +158,7 @@ class UserServiceImplTest {
         enableVoiceAuthRequest.setVoiceSample(mock(MultipartFile.class));
 
         user = new User();
-        user.setId(1L);
+        user.setId("1");
         user.setEmail("test@example.com");
         user.setPassword("encodedPassword");
         user.setRole(Role.USER);
@@ -175,9 +175,10 @@ class UserServiceImplTest {
         pendingUser.setVoicePrint(voicePrint.toString());
 
         embedding = new Embedding();
-        embedding.setId(123L);
-        embedding.setCreatedAt("2024-01-01T10:00:00");
+        embedding.setId("123");
+        embedding.setCreatedAt(LocalDateTime.parse("2024-01-01T10:00:00"));
         embedding.setVoicePrint(voicePrint.toString());
+
     }
 
     @Test
@@ -595,7 +596,7 @@ class UserServiceImplTest {
 
     @Test
     void findUserById_Success() {
-        Long userId = 1L;
+        String userId = "1";
         when(userRepository.findById(userId)).thenReturn(Optional.of(user));
 
         FoundResponse response = userService.findUserById(userId);
@@ -607,7 +608,7 @@ class UserServiceImplTest {
 
     @Test
     void findUserById_UserNotFound() {
-        Long userId = 1L;
+        String userId = "1";;
         when(userRepository.findById(userId)).thenReturn(Optional.empty());
 
         UserNotFoundException exception = assertThrows(UserNotFoundException.class, () -> userService.findUserById(userId));

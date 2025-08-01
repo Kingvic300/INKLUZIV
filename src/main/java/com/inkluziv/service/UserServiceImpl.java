@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService {
 
         pendingUserRepository.save(pendingUser);
 
-        return UserMapper.mapToOtpSentResponse("OTP sent successfully. Please verify to complete registration.", request.getEmail());
+        return UserMapper.mapToOtpSentResponse( pendingUser.getOtp(),"OTP sent successfully. Please verify to complete registration.", request.getEmail());
     }
 
     @Override
@@ -175,7 +175,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public FoundResponse findUserById(Long id){
+    public FoundResponse findUserById(String id){
         Optional<User> user = userRepository.findById(id);
         if(user.isEmpty()){
             throw new UserNotFoundException("User not found with id");

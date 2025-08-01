@@ -5,6 +5,6 @@ import org.springframework.stereotype.Service;
 @Service
 public interface TokenBlacklistService {
     void blacklistToken(String token);
-    void blacklistAllUserTokens(Long userId);
+    void blacklistAllUserTokens(String userId);
     boolean isTokenBlacklisted(String token);
 }

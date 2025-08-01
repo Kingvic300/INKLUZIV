@@ -39,7 +39,7 @@ public class OTPServiceImpl implements OTPService {
         }catch (Exception e) {
             throw new RuntimeException("Failed to send OTP: " + e.getMessage(), e);
         }
-        return OTPMapper.mapToOTPResponse(generatedOtp, "OTP sent successfully");
+        return OTPMapper.mapToOTPResponse(generatedOtp, "OTP sent successfully", email);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class OTPServiceImpl implements OTPService {
         }catch (Exception e) {
             throw new RuntimeException("Failed to send OTP: " + e.getMessage(), e);
         }
-        return OTPMapper.mapToOTPResponse(generatedOtp, "OTP sent successfully");
+        return OTPMapper.mapToOTPResponse(generatedOtp, "OTP sent successfully",email);
     }
     @Override
     public OTPResponse verifyOtp(String email, String otp) {
@@ -82,7 +82,7 @@ public class OTPServiceImpl implements OTPService {
         otpEntity.setUsed(true);
         otpRepository.save(otpEntity);
 
-        return OTPMapper.mapToOTPResponse(otp, "OTP verified successfully");
+        return OTPMapper.mapToOTPResponse(otp, "OTP verified successfully", email);
     }
     @Override
     public OTPResponse deleteOtp(String email, String otp) {
@@ -98,7 +98,7 @@ public class OTPServiceImpl implements OTPService {
 
         otpRepository.delete(otpEntity);
 
-        return OTPMapper.mapToOTPResponse(otp, "OTP deleted successfully");
+        return OTPMapper.mapToOTPResponse(otp, "OTP deleted successfully",email);
     }
 
 }
