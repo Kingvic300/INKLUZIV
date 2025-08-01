@@ -292,7 +292,7 @@ export default function HomePage() {
             <div className="w-8 h-8 bg-neon-orange rounded-lg flex items-center justify-center shimmer">
               <Accessibility className="w-5 h-5 text-black" />
             </div>
-            <span className="text-muted-foreground text-lg">© 2024 INKLUZIV - No limits. Just access.</span>
+            <span className="text-muted-foreground text-lg">© 2025 INKLUZIV</span>
           </div>
           <p className="text-secondary text-matrix">Making digital finance accessible for everyone</p>
         </div>
