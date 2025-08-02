@@ -99,7 +99,7 @@ export default function LoginPage() {
     }, 4000)
 
     setTimeout(() => {
-      router.push("/banking")
+      router.push("/dashboard")
     }, 5500)
   }
 
