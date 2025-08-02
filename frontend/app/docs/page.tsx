@@ -43,7 +43,7 @@ export default function DocsPage() {
   return (
     <div className="min-h-screen bg-surface scan-lines">
       {/* Header */}
-      <header className="bg-surface-elevated/80 backdrop-blur-md border-b border-neon-cyan/30 shadow-neon-cyan/20 sticky top-0 z-50">
+      <header className="sticky top-0 z-50 bg-surface-elevated/80 backdrop-blur-md border-b border-neon-cyan/30 shadow-neon-cyan/20">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <Link
             href="/"
@@ -72,7 +72,7 @@ export default function DocsPage() {
         </div>
       </header>
 
-      <div className="container mx-auto px-4 py-12 max-w-6xl">
+      <div className="container mx-auto px-4 py-12 max-w-6xl flex-grow z-1000">
         {/* Hero Section */}
         <div className="text-center mb-16">
           <div className="flex items-center justify-center mb-6">
@@ -366,12 +366,12 @@ export default function DocsPage() {
                 <div className="bg-surface-elevated p-4 rounded border border-strong mb-4">
                   <code className="text-primary text-sm font-mono whitespace-pre">
                     {`const {
-  isListening,
-  transcript,
-  startListening,
-  stopListening,
-  error
-} = useSpeechRecognition()`}
+                      isListening,
+                      transcript,
+                      startListening,
+                      stopListening,
+                      error
+                    } = useSpeechRecognition()`}
                   </code>
                 </div>
                 <p className="text-secondary text-sm font-mono">Hook for voice recognition functionality</p>
@@ -382,8 +382,8 @@ export default function DocsPage() {
                 <div className="bg-surface-elevated p-4 rounded border border-strong mb-4">
                   <code className="text-primary text-sm font-mono whitespace-pre">
                     {`const {
-  speak,
-  cancel,
+                      speak,
+                      cancel,
   isSpeaking,
   voices
 } = useSpeechSynthesis()`}
