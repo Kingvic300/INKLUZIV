@@ -47,13 +47,21 @@ export default function HomePage() {
             </div>
           </div>
           <div className="flex space-x-3">
-            <Button
-              variant="outline"
-              className="px-12 py-6 border-neon-orange text-neon-orange hover:bg-neon-orange hover:text-black bg-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neon-orange focus-visible:ring-offset-2 transition-smooth font-mono"
-            >
-              <Cpu className="w-4 h-4 mr-2" />
-              Banking Demo
-            </Button>
+            <Link href="/banking">
+              <Button className="btn-neon-orange touch-target-large transition-smooth font-mono">
+                <Wifi className="w-4 h-4 mr-2" />
+                Experience Demo
+              </Button>
+            </Link>
+            <Link href="/banking">
+              <Button
+                variant="outline"
+                className="px-12 py-6 border-neon-orange text-neon-orange hover:bg-neon-orange hover:text-black bg-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neon-orange focus-visible:ring-offset-2 transition-smooth font-mono"
+              >
+                <Cpu className="w-4 h-4 mr-2" />
+                Banking Demo
+              </Button>
+            </Link>
             <Link href="/docs">
               <Button
                 variant="outline"
@@ -268,7 +276,6 @@ export default function HomePage() {
                 className="btn-neon-orange text-xl px-16 py-8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neon-orange focus-visible:ring-offset-2 transition-smooth font-mono"
               >
                 TRY DEMO
-                <ArrowRight className="w-6 h-6 ml-4" />
               </Button>
             </Link>
             <Link href="/docs">
