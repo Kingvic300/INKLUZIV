@@ -112,7 +112,7 @@ export default function RegisterPage() {
     }, 4500)
 
     setTimeout(() => {
-      router.push("/banking")
+      router.push("/dashboard")
     }, 6000)
   }
 
