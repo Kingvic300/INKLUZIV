@@ -92,7 +92,7 @@ export default function HomePage() {
             <strong className="text-neon-cyan text-glow">INKLUZIV empowers universal access.</strong>
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
-            <Link href="/banking">
+            <Link href="/register">
               <Button
                 size="lg"
                 className="btn-neon-cyan text-xl px-12 py-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neon-cyan focus-visible:ring-offset-2 transition-smooth font-mono"
@@ -262,7 +262,7 @@ export default function HomePage() {
             Join the accessibility revolution. Experience the future of inclusive financial interfaces.
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
-            <Link href="/banking">
+            <Link href="/register">
               <Button
                 size="lg"
                 className="btn-neon-orange text-xl px-16 py-8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neon-orange focus-visible:ring-offset-2 transition-smooth font-mono"
