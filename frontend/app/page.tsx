@@ -50,7 +50,8 @@ export default function HomePage() {
             <Link href="/register">
               <Button 
               variant="outline"
-              className="btn-neon-orange touch-target-large transition-smooth font-mono">
+              className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neon-orange focus-visible:ring-offset-2 touch-target-large bg-transparent border-neon-orange text-neon-orange hover:bg-neon-orange hover:text-black transition-smooth font-mono"
+              >
                 <Wifi className="w-4 h-4 mr-2" />
                 Experience Demo
               </Button>
