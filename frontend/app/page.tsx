@@ -89,7 +89,7 @@ export default function HomePage() {
             <span className="text-gradient text-glow">REDEFINED</span>
           </h2>
           <p className="text-xl text-muted-foreground mb-12 max-w-4xl mx-auto leading-relaxed">
-            Breaking barriers in digital finance. Making finance accessible for everyone.
+            Breaking barriers in finance. Making finance accessible for everyone.
             <br />
             <strong className="text-neon-cyan text-glow">INKLUZIV empowers universal access.</strong>
           </p>
