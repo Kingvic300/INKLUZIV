@@ -47,7 +47,7 @@ export default function DocsPage() {
           </div>
         </section>
 
-        {/* Quick Start Section */}
+        {/* --- DEFINITIVELY FIXED QUICK START SECTION --- */}
         <section className="mb-12 md:mb-16">
           <Card className="card-futuristic">
             <CardHeader>
@@ -58,22 +58,35 @@ export default function DocsPage() {
             </CardHeader>
             <CardContent className="space-y-8">
               <div className="grid md:grid-cols-2 gap-8">
+                {/* Installation Card */}
                 <div className="bg-surface p-4 md:p-6 rounded-lg border border-strong">
                   <h4 className="text-neon-cyan text-xl font-semibold mb-4 font-mono flex items-center">
                     <Download className="w-5 h-5 mr-2" />
                     INSTALLATION
                   </h4>
                   <div className="bg-surface-elevated p-4 rounded border border-strong mb-4">
+                    {/* KEY FIX: This flex container now stacks vertically on mobile and becomes a row on small screens+ */}
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                      {/* The code block itself can scroll if the text is still too long for the container */}
                       <code className="text-primary text-sm sm:text-base font-mono overflow-x-auto whitespace-nowrap pb-2 sm:pb-0">
                         npm install @inkluziv/accessibility-sdk
                       </code>
-                      <Button size="sm" variant="outline" className="p-2 flex-shrink-0 w-full sm:w-auto justify-center bg-surface hover:bg-surface-elevated" onClick={() => copyToClipboard("npm install @inkluziv/sdk")}>
-                        <Copy className="w-4 h-4 mr-2 sm:mr-0" /> <span className="sm:hidden">Copy Command</span>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="p-2 flex-shrink-0 w-full sm:w-auto justify-center bg-surface hover:bg-surface-elevated border-strong"
+                        onClick={() => copyToClipboard("npm install @inkluziv/sdk")}
+                      >
+                        <Copy className="w-4 h-4 mr-2 sm:mr-0" />
+                        <span className="sm:hidden">Copy Command</span>
                       </Button>
                     </div>
                   </div>
+                  <p className="text-secondary font-mono text-sm md:text-base">
+                    Install the complete accessibility SDK.
+                  </p>
                 </div>
+                {/* Basic Setup Card */}
                 <div className="bg-surface p-4 md:p-6 rounded-lg border border-strong">
                   <h4 className="text-neon-green text-xl font-semibold mb-4 font-mono flex items-center">
                     <Play className="w-5 h-5 mr-2" />
@@ -84,6 +97,9 @@ export default function DocsPage() {
                       {`import { InkluzivProvider } from '@inkluziv/sdk';\n\n<InkluzivProvider features="all">\n  <YourApp />\n</InkluzivProvider>`}
                     </code>
                   </div>
+                   <p className="text-secondary font-mono text-sm md:text-base mt-4">
+                     Wrap your app to enable all accessibility features.
+                   </p>
                 </div>
               </div>
             </CardContent>
@@ -118,7 +134,7 @@ export default function DocsPage() {
           </div>
         </section>
 
-        {/* --- FIXED API REFERENCE SECTION --- */}
+        {/* API Reference */}
         <section className="mb-12 md:mb-16">
           <Card className="card-futuristic">
             <CardHeader>
@@ -128,7 +144,6 @@ export default function DocsPage() {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-8">
-              {/* Core Provider */}
               <div className="bg-surface p-4 md:p-6 rounded-lg border border-strong">
                 <h4 className="text-neon-cyan text-xl md:text-2xl font-semibold mb-4 font-mono">InkluzivProvider</h4>
                 <p className="text-secondary font-mono mb-4 text-sm md:text-base">
@@ -139,7 +154,6 @@ export default function DocsPage() {
                     {`<InkluzivProvider\n  features={['voice', 'tts', 'captions', 'haptic', 'contrast']}\n  theme="futuristic"\n  locale="en-US"\n  wcagLevel="AA"\n>\n  {children}\n</InkluzivProvider>`}
                   </code>
                 </div>
-                {/* Props and Features grid */}
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
                     <h5 className="text-neon-green font-semibold mb-2 font-mono">Props:</h5>
@@ -161,8 +175,6 @@ export default function DocsPage() {
                   </div>
                 </div>
               </div>
-
-              {/* Hooks */}
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="bg-surface p-4 md:p-6 rounded-lg border border-strong">
                   <h4 className="text-neon-green text-xl font-semibold mb-4 font-mono">useSpeechRecognition</h4>
@@ -174,18 +186,6 @@ export default function DocsPage() {
                   <h4 className="text-neon-orange text-xl font-semibold mb-4 font-mono">useSpeechSynthesis</h4>
                   <div className="bg-surface-elevated p-4 rounded border border-strong mb-4 overflow-x-auto">
                     <code className="text-primary text-xs sm:text-sm font-mono whitespace-pre">{`const {\n  speak,\n  cancel,\n  isSpeaking,\n  voices\n} = useSpeechSynthesis()`}</code>
-                  </div>
-                </div>
-                <div className="bg-surface p-4 md:p-6 rounded-lg border border-strong">
-                  <h4 className="text-neon-purple text-xl font-semibold mb-4 font-mono">useAccessibility</h4>
-                  <div className="bg-surface-elevated p-4 rounded border border-strong mb-4 overflow-x-auto">
-                    <code className="text-primary text-xs sm:text-sm font-mono whitespace-pre">{`const {\n  highContrast,\n  fontSize,\n  reducedMotion,\n  toggleFeature\n} = useAccessibility()`}</code>
-                  </div>
-                </div>
-                <div className="bg-surface p-4 md:p-6 rounded-lg border border-strong">
-                  <h4 className="text-neon-cyan text-xl font-semibold mb-4 font-mono">useHapticFeedback</h4>
-                  <div className="bg-surface-elevated p-4 rounded border border-strong mb-4 overflow-x-auto">
-                    <code className="text-primary text-xs sm:text-sm font-mono whitespace-pre">{`const {\n  vibrate,\n  createPattern,\n  isSupported\n} = useHapticFeedback()`}</code>
                   </div>
                 </div>
               </div>
@@ -215,7 +215,7 @@ export default function DocsPage() {
         {/* Resources */}
         <section className="mb-12 md:mb-16">
             <Card className="card-futuristic">
-                <CardHeader><CardTitle className="text-primary text-3xl md:text-4xl font-mono flex items-center"><FileText className="w-8 h-8 mr-4 text-neon-purple" />RESOURCES</CardTitle></CardHeader>
+                <CardHeader><CardTitle className="text-primary text-3xl md:text-4xl font-mono flex items-center"><FileText className="w-8 h-8 mr-4 text-neon-purple" />RESOURCES & LINKS</CardTitle></CardHeader>
                 <CardContent>
                     <div className="grid md:grid-cols-3 gap-6">
                         <div className="bg-surface p-4 md:p-6 rounded-lg border border-strong"><h4 className="text-neon-cyan text-xl font-semibold mb-4 font-mono">DOCS</h4><ul className="space-y-3"><li><a href="#" className="text-secondary hover:text-neon-cyan transition-smooth font-mono flex items-center"><ExternalLink className="w-4 h-4 mr-2" />API Reference</a></li></ul></div>
