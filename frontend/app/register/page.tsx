@@ -224,7 +224,7 @@ export default function RegisterPage() {
         ) : (
           <>
             <Mic className="w-5 h-5 mr-2" />
-            {voiceBlob ? "RECORD AGAIN" : "RECORD VOICE SAMPLE"}
+            {voiceBlob ? "RECORD AGAIN" : "RECORD VOICE"}
           </>
         )}
       </Button>
