@@ -2,26 +2,18 @@
 
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import {
   ArrowLeft, Code, Zap, Shield, CheckCircle, Layers, Eye, Mic, Hand, Download,
-  ExternalLink, Copy, Play, FileText, Accessibility, Brain, Volume2, Type,
-  Gamepad2, Palette, Focus, Languages, Camera, Fingerprint, MousePointer,
-  Headphones, ScanLine, Vibrate,
+  ExternalLink, Copy, Play, FileText, Brain, Volume2, Type, Gamepad2, Palette, Focus,
+  Languages, Camera, Fingerprint, MousePointer, Headphones, ScanLine, Vibrate,
 } from "lucide-react"
-
-const featureCategories = [
-  { title: "VOICE & AUDIO", icon: Mic, color: "cyan", features: [{ icon: Mic, title: 'Voice Control', desc: 'Complete voice navigation', color: 'cyan' }, { icon: Type, title: 'Text-to-Speech', desc: 'Real-time audio feedback', color: 'orange' }, { icon: Volume2, title: 'Live Captions', desc: 'Real-time subtitles', color: 'purple' }, { icon: Headphones, title: 'Audio Descriptions', desc: 'Detailed audio descriptions', color: 'green' }] },
-  { title: "VISUAL ACCESSIBILITY", icon: Eye, color: "green", features: [{ icon: Eye, title: 'Screen Reader', desc: 'NVDA, JAWS, VoiceOver', color: 'cyan' }, { icon: Palette, title: 'High Contrast', desc: 'Enhanced visual contrast', color: 'orange' }, { icon: Focus, title: 'Focus Indicators', desc: 'Clear visual focus', color: 'purple' }, { icon: ScanLine, title: 'Magnification', desc: 'Magnification support', color: 'green' }] },
-  { title: "MOTOR & INPUT", icon: Hand, color: "orange", features: [{ icon: Hand, title: 'Large Targets', desc: 'WCAG 2.1 AA compliant', color: 'cyan' }, { icon: Gamepad2, title: 'Keyboard Nav', desc: 'Full keyboard support', color: 'orange' }, { icon: MousePointer, title: 'Switch Control', desc: 'Assistive device support', color: 'purple' }, { icon: Vibrate, title: 'Haptic Feedback', desc: 'Tactile responses', color: 'green' }] },
-  { title: "ADVANCED FEATURES", icon: Brain, color: "purple", features: [{ icon: Brain, title: 'Cognitive Support', desc: 'Simplified interfaces', color: 'cyan' }, { icon: Languages, title: 'Multi-Language', desc: '50+ languages supported', color: 'orange' }, { icon: Camera, title: 'Computer Vision', desc: 'AI-powered analysis', color: 'purple' }, { icon: Fingerprint, title: 'Biometric Auth', desc: 'Accessible authentication', color: 'green' }] }
-];
 
 export default function DocsPage() {
   const copyToClipboard = (text: string) => {
     if (navigator.clipboard) {
-      navigator.clipboard.writeText(text);
+      navigator.clipboard.writeText(text)
     }
   }
 
@@ -30,13 +22,13 @@ export default function DocsPage() {
       {/* Header */}
       <header className="sticky top-0 z-50 bg-surface-elevated/80 backdrop-blur-md border-b border-neon-cyan/30 shadow-neon-cyan/20">
         <div className="container mx-auto px-4 py-3 flex justify-between items-center">
-          <Link href="/" className="inline-flex items-center text-neon-cyan hover:text-neon-cyan-hover transition-smooth focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neon-cyan focus-visible:ring-offset-2 p-2 rounded-lg font-mono">
+          <Link href="/" className="inline-flex items-center text-neon-cyan hover:text-neon-cyan-hover transition-smooth p-2 rounded-lg font-mono">
             <ArrowLeft className="w-5 h-5 mr-2" />
             <span className="font-medium hidden sm:inline">BACK</span>
           </Link>
           <div className="flex items-center space-x-2 sm:space-x-3">
-            <Link href="/sdk"><Button variant="outline" className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neon-green focus-visible:ring-offset-2 touch-target-large bg-transparent border-neon-green text-neon-green hover:bg-neon-green hover:text-black transition-smooth font-mono text-sm px-3 sm:px-4"><Code className="w-4 h-4 sm:mr-2" /><span className="hidden sm:inline">SDK</span></Button></Link>
-            <Link href="/banking"><Button className="btn-neon-cyan touch-target-large transition-smooth font-mono text-sm px-3 sm:px-4"><Eye className="w-4 h-4 sm:mr-2" /><span className="hidden sm:inline">DEMO</span></Button></Link>
+            <Link href="/sdk"><Button variant="outline" className="bg-transparent border-neon-green text-neon-green hover:bg-neon-green hover:text-black font-mono text-sm px-3 sm:px-4"><Code className="w-4 h-4 sm:mr-2" /><span className="hidden sm:inline">SDK</span></Button></Link>
+            <Link href="/banking"><Button className="btn-neon-cyan font-mono text-sm px-3 sm:px-4"><Eye className="w-4 h-4 sm:mr-2" /><span className="hidden sm:inline">DEMO</span></Button></Link>
           </div>
         </div>
       </header>
@@ -45,44 +37,43 @@ export default function DocsPage() {
         {/* Hero Section */}
         <section className="text-center mb-12 md:mb-16">
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-gradient font-mono mb-6">INKLUZIV DOCS</h1>
-          <p className="text-xl md:text-2xl text-secondary mb-8 font-mono">Complete documentation for accessible banking</p>
+          <p className="text-xl md:text-2xl text-secondary mb-8 font-mono">
+            Complete documentation for accessible banking
+          </p>
           <div className="flex justify-center flex-wrap gap-3">
-            <Badge className="bg-neon-green text-black text-base md:text-lg px-4 py-1.5 font-mono">v2.1.0</Badge>
-            <Badge className="bg-neon-cyan text-black text-base md:text-lg px-4 py-1.5 font-mono">WCAG 2.1 AA</Badge>
-            <Badge className="bg-neon-orange text-black text-base md:text-lg px-4 py-1.5 font-mono">React 18+</Badge>
+            <Badge className="bg-neon-green text-black text-base px-4 py-1.5 font-mono">v2.1.0</Badge>
+            <Badge className="bg-neon-cyan text-black text-base px-4 py-1.5 font-mono">WCAG 2.1 AA</Badge>
+            <Badge className="bg-neon-orange text-black text-base px-4 py-1.5 font-mono">React 18+</Badge>
           </div>
         </section>
 
-        {/* --- FIXED QUICK START SECTION --- */}
+        {/* Quick Start Section */}
         <section className="mb-12 md:mb-16">
           <Card className="card-futuristic">
             <CardHeader>
-              <CardTitle className="text-primary text-3xl sm:text-4xl font-mono flex items-center">
-                <Zap className="w-7 sm:w-8 h-7 sm:h-8 mr-4 text-neon-green" />
+              <CardTitle className="text-primary text-3xl md:text-4xl font-mono flex items-center">
+                <Zap className="w-7 md:w-8 h-7 md:h-8 mr-4 text-neon-green" />
                 QUICK START
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-8">
               <div className="grid md:grid-cols-2 gap-8">
-                {/* Installation Card */}
                 <div className="bg-surface p-4 md:p-6 rounded-lg border border-strong">
                   <h4 className="text-neon-cyan text-xl font-semibold mb-4 font-mono flex items-center">
                     <Download className="w-5 h-5 mr-2" />
                     INSTALLATION
                   </h4>
-                  <div className="bg-surface-elevated p-4 rounded border border-strong mb-4 overflow-x-auto">
-                    <div className="flex items-center justify-between gap-4">
-                      <code className="text-primary text-sm sm:text-base font-mono whitespace-nowrap">
-                        npm install @inkluziv/sdk
+                  <div className="bg-surface-elevated p-4 rounded border border-strong mb-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                      <code className="text-primary text-sm sm:text-base font-mono overflow-x-auto whitespace-nowrap pb-2 sm:pb-0">
+                        npm install @inkluziv/accessibility-sdk
                       </code>
-                      <Button size="icon" variant="ghost" className="p-2 flex-shrink-0 text-secondary hover:text-primary" onClick={() => copyToClipboard("npm install @inkluziv/sdk")}>
-                        <Copy className="w-4 h-4" />
+                      <Button size="sm" variant="outline" className="p-2 flex-shrink-0 w-full sm:w-auto justify-center bg-surface hover:bg-surface-elevated" onClick={() => copyToClipboard("npm install @inkluziv/sdk")}>
+                        <Copy className="w-4 h-4 mr-2 sm:mr-0" /> <span className="sm:hidden">Copy Command</span>
                       </Button>
                     </div>
                   </div>
-                  <p className="text-secondary text-sm font-mono">Install the complete accessibility SDK.</p>
                 </div>
-                {/* Basic Setup Card */}
                 <div className="bg-surface p-4 md:p-6 rounded-lg border border-strong">
                   <h4 className="text-neon-green text-xl font-semibold mb-4 font-mono flex items-center">
                     <Play className="w-5 h-5 mr-2" />
@@ -93,7 +84,6 @@ export default function DocsPage() {
                       {`import { InkluzivProvider } from '@inkluziv/sdk';\n\n<InkluzivProvider features="all">\n  <YourApp />\n</InkluzivProvider>`}
                     </code>
                   </div>
-                   <p className="text-secondary text-sm font-mono mt-4">Wrap your app to enable all features.</p>
                 </div>
               </div>
             </CardContent>
@@ -103,52 +93,105 @@ export default function DocsPage() {
         {/* Feature Categories */}
         <section className="mb-12 md:mb-16">
           <div className="grid lg:grid-cols-2 gap-8">
-            {featureCategories.map((category) => {
-              const CategoryIcon = category.icon;
-              return (
-                <Card key={category.title} className="card-futuristic">
-                  <CardHeader>
-                    <CardTitle className={`text-primary text-2xl md:text-3xl font-mono flex items-center text-neon-${category.color}`}>
-                      <CategoryIcon className="w-7 md:w-8 h-7 md:h-8 mr-4" />
-                      {category.title}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      {category.features.map(feature => {
-                        const FeatureIcon = feature.icon;
-                        return (
-                          <div key={feature.title} className="bg-surface p-4 rounded border border-strong h-full">
-                            <div className="flex items-center mb-2">
-                              <FeatureIcon className={`w-5 h-5 text-neon-${feature.color} mr-2`} />
-                              <h5 className="text-primary font-semibold font-mono">{feature.title}</h5>
-                            </div>
-                            <p className="text-secondary text-sm font-mono">{feature.desc}</p>
-                          </div>
-                        )
-                      })}
-                    </div>
-                  </CardContent>
-                </Card>
-              )
-            })}
+            <Card className="card-futuristic">
+              <CardHeader><CardTitle className="text-primary text-2xl md:text-3xl font-mono flex items-center"><Mic className="w-7 md:w-8 h-7 md:h-8 mr-4 text-neon-cyan" />VOICE & AUDIO</CardTitle></CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="bg-surface p-4 rounded border border-strong h-full"><div className="flex items-center mb-2"><Mic className="w-5 h-5 text-neon-cyan mr-2" /><h5 className="text-primary font-semibold font-mono">Voice Control</h5></div><p className="text-secondary text-sm font-mono">Complete voice navigation</p></div>
+                  <div className="bg-surface p-4 rounded border border-strong h-full"><div className="flex items-center mb-2"><Type className="w-5 h-5 text-neon-orange mr-2" /><h5 className="text-primary font-semibold font-mono">Text-to-Speech</h5></div><p className="text-secondary text-sm font-mono">Real-time audio feedback</p></div>
+                  <div className="bg-surface p-4 rounded border border-strong h-full"><div className="flex items-center mb-2"><Volume2 className="w-5 h-5 text-neon-purple mr-2" /><h5 className="text-primary font-semibold font-mono">Live Captions</h5></div><p className="text-secondary text-sm font-mono">Real-time subtitles</p></div>
+                  <div className="bg-surface p-4 rounded border border-strong h-full"><div className="flex items-center mb-2"><Headphones className="w-5 h-5 text-neon-green mr-2" /><h5 className="text-primary font-semibold font-mono">Audio Descriptions</h5></div><p className="text-secondary text-sm font-mono">Detailed audio descriptions</p></div>
+                </div>
+              </CardContent>
+            </Card>
+            <Card className="card-futuristic">
+              <CardHeader><CardTitle className="text-primary text-2xl md:text-3xl font-mono flex items-center"><Eye className="w-7 md:w-8 h-7 md:h-8 mr-4 text-neon-green" />VISUAL ACCESSIBILITY</CardTitle></CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="bg-surface p-4 rounded border border-strong h-full"><div className="flex items-center mb-2"><Eye className="w-5 h-5 text-neon-cyan mr-2" /><h5 className="text-primary font-semibold font-mono">Screen Reader</h5></div><p className="text-secondary text-sm font-mono">NVDA, JAWS, VoiceOver</p></div>
+                    <div className="bg-surface p-4 rounded border border-strong h-full"><div className="flex items-center mb-2"><Palette className="w-5 h-5 text-neon-orange mr-2" /><h5 className="text-primary font-semibold font-mono">High Contrast</h5></div><p className="text-secondary text-sm font-mono">Enhanced visual contrast</p></div>
+                    <div className="bg-surface p-4 rounded border border-strong h-full"><div className="flex items-center mb-2"><Focus className="w-5 h-5 text-neon-purple mr-2" /><h5 className="text-primary font-semibold font-mono">Focus Indicators</h5></div><p className="text-secondary text-sm font-mono">Clear visual focus</p></div>
+                    <div className="bg-surface p-4 rounded border border-strong h-full"><div className="flex items-center mb-2"><ScanLine className="w-5 h-5 text-neon-green mr-2" /><h5 className="text-primary font-semibold font-mono">Magnification</h5></div><p className="text-secondary text-sm font-mono">Magnification support</p></div>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </section>
 
-        {/* API Reference */}
+        {/* --- FIXED API REFERENCE SECTION --- */}
         <section className="mb-12 md:mb-16">
-            <Card className="card-futuristic">
-                <CardHeader><CardTitle className="text-primary text-3xl md:text-4xl font-mono flex items-center"><Code className="w-8 h-8 mr-4 text-neon-cyan" />API REFERENCE</CardTitle></CardHeader>
-                <CardContent className="space-y-8">
-                    <div className="bg-surface p-4 md:p-6 rounded-lg border border-strong overflow-x-auto">
-                        <h4 className="text-neon-cyan text-xl md:text-2xl font-semibold mb-4 font-mono">InkluzivProvider</h4>
-                        <div className="bg-surface-elevated p-4 rounded border border-strong mb-4"><code className="text-primary text-sm font-mono whitespace-pre">{`<InkluzivProvider\n  features={['voice', 'tts', 'captions']}\n  theme="futuristic"\n>\n  {children}\n</InkluzivProvider>`}</code></div>
-                    </div>
-                </CardContent>
-            </Card>
-        </section>
+          <Card className="card-futuristic">
+            <CardHeader>
+              <CardTitle className="text-primary text-3xl md:text-4xl font-mono flex items-center">
+                <Code className="w-8 h-8 mr-4 text-neon-cyan" />
+                API REFERENCE
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-8">
+              {/* Core Provider */}
+              <div className="bg-surface p-4 md:p-6 rounded-lg border border-strong">
+                <h4 className="text-neon-cyan text-xl md:text-2xl font-semibold mb-4 font-mono">InkluzivProvider</h4>
+                <p className="text-secondary font-mono mb-4 text-sm md:text-base">
+                  Main provider component that enables accessibility features.
+                </p>
+                <div className="bg-surface-elevated p-4 rounded border border-strong mb-4 overflow-x-auto">
+                  <code className="text-primary text-sm font-mono whitespace-pre">
+                    {`<InkluzivProvider\n  features={['voice', 'tts', 'captions', 'haptic', 'contrast']}\n  theme="futuristic"\n  locale="en-US"\n  wcagLevel="AA"\n>\n  {children}\n</InkluzivProvider>`}
+                  </code>
+                </div>
+                {/* Props and Features grid */}
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <h5 className="text-neon-green font-semibold mb-2 font-mono">Props:</h5>
+                    <ul className="text-secondary text-sm font-mono space-y-1">
+                      <li>• features: string[]</li>
+                      <li>• theme: 'futuristic' | 'dark'</li>
+                      <li>• locale: string</li>
+                      <li>• wcagLevel: 'A' | 'AA' | 'AAA'</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h5 className="text-neon-orange font-semibold mb-2 font-mono">Features:</h5>
+                    <ul className="text-secondary text-sm font-mono space-y-1">
+                      <li>• voice - Voice control</li>
+                      <li>• tts - Text-to-speech</li>
+                      <li>• captions - Live captions</li>
+                      <li>• haptic - Haptic feedback</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
 
-        {/* --- IMPLEMENTATION EXAMPLES SECTION HAS BEEN REMOVED --- */}
+              {/* Hooks */}
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="bg-surface p-4 md:p-6 rounded-lg border border-strong">
+                  <h4 className="text-neon-green text-xl font-semibold mb-4 font-mono">useSpeechRecognition</h4>
+                  <div className="bg-surface-elevated p-4 rounded border border-strong mb-4 overflow-x-auto">
+                    <code className="text-primary text-xs sm:text-sm font-mono whitespace-pre">{`const {\n  isListening,\n  transcript,\n  startListening,\n  stopListening,\n  error\n} = useSpeechRecognition()`}</code>
+                  </div>
+                </div>
+                <div className="bg-surface p-4 md:p-6 rounded-lg border border-strong">
+                  <h4 className="text-neon-orange text-xl font-semibold mb-4 font-mono">useSpeechSynthesis</h4>
+                  <div className="bg-surface-elevated p-4 rounded border border-strong mb-4 overflow-x-auto">
+                    <code className="text-primary text-xs sm:text-sm font-mono whitespace-pre">{`const {\n  speak,\n  cancel,\n  isSpeaking,\n  voices\n} = useSpeechSynthesis()`}</code>
+                  </div>
+                </div>
+                <div className="bg-surface p-4 md:p-6 rounded-lg border border-strong">
+                  <h4 className="text-neon-purple text-xl font-semibold mb-4 font-mono">useAccessibility</h4>
+                  <div className="bg-surface-elevated p-4 rounded border border-strong mb-4 overflow-x-auto">
+                    <code className="text-primary text-xs sm:text-sm font-mono whitespace-pre">{`const {\n  highContrast,\n  fontSize,\n  reducedMotion,\n  toggleFeature\n} = useAccessibility()`}</code>
+                  </div>
+                </div>
+                <div className="bg-surface p-4 md:p-6 rounded-lg border border-strong">
+                  <h4 className="text-neon-cyan text-xl font-semibold mb-4 font-mono">useHapticFeedback</h4>
+                  <div className="bg-surface-elevated p-4 rounded border border-strong mb-4 overflow-x-auto">
+                    <code className="text-primary text-xs sm:text-sm font-mono whitespace-pre">{`const {\n  vibrate,\n  createPattern,\n  isSupported\n} = useHapticFeedback()`}</code>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
 
         {/* Best Practices */}
         <section className="mb-12 md:mb-16">
@@ -158,11 +201,11 @@ export default function DocsPage() {
                     <div className="grid md:grid-cols-2 gap-8">
                         <div className="bg-neon-cyan/10 border border-neon-cyan/30 p-4 md:p-6 rounded-lg">
                             <h4 className="text-neon-cyan text-xl font-semibold mb-4 font-mono">VOICE</h4>
-                            <ul className="space-y-2 text-secondary font-mono"><li className="flex items-start"><CheckCircle className="w-5 h-5 text-neon-cyan mr-2 mt-0.5 flex-shrink-0" />Use clear, simple command phrases</li><li className="flex items-start"><CheckCircle className="w-5 h-5 text-neon-cyan mr-2 mt-0.5 flex-shrink-0" />Provide voice feedback for all actions</li></ul>
+                            <ul className="space-y-2 text-secondary font-mono"><li className="flex items-start"><CheckCircle className="w-5 h-5 text-neon-cyan mr-2 mt-0.5 flex-shrink-0" />Use clear, simple command phrases</li><li className="flex items-start"><CheckCircle className="w-5 h-5 text-neon-cyan mr-2 mt-0.5 flex-shrink-0" />Provide voice feedback</li></ul>
                         </div>
                         <div className="bg-neon-green/10 border border-neon-green/30 p-4 md:p-6 rounded-lg">
                             <h4 className="text-neon-green text-xl font-semibold mb-4 font-mono">VISUAL</h4>
-                            <ul className="space-y-2 text-secondary font-mono"><li className="flex items-start"><CheckCircle className="w-5 h-5 text-neon-green mr-2 mt-0.5 flex-shrink-0" />Maintain 4.5:1 contrast ratio</li><li className="flex items-start"><CheckCircle className="w-5 h-5 text-neon-green mr-2 mt-0.5 flex-shrink-0" />Use semantic HTML elements</li></ul>
+                            <ul className="space-y-2 text-secondary font-mono"><li className="flex items-start"><CheckCircle className="w-5 h-5 text-neon-green mr-2 mt-0.5 flex-shrink-0" />Maintain 4.5:1 contrast ratio</li><li className="flex items-start"><CheckCircle className="w-5 h-5 text-neon-green mr-2 mt-0.5 flex-shrink-0" />Use semantic HTML</li></ul>
                         </div>
                     </div>
                 </CardContent>
@@ -172,12 +215,12 @@ export default function DocsPage() {
         {/* Resources */}
         <section className="mb-12 md:mb-16">
             <Card className="card-futuristic">
-                <CardHeader><CardTitle className="text-primary text-3xl md:text-4xl font-mono flex items-center"><FileText className="w-8 h-8 mr-4 text-neon-purple" />RESOURCES & LINKS</CardTitle></CardHeader>
+                <CardHeader><CardTitle className="text-primary text-3xl md:text-4xl font-mono flex items-center"><FileText className="w-8 h-8 mr-4 text-neon-purple" />RESOURCES</CardTitle></CardHeader>
                 <CardContent>
                     <div className="grid md:grid-cols-3 gap-6">
-                        <div className="bg-surface p-4 md:p-6 rounded-lg border border-strong"><h4 className="text-neon-cyan text-xl font-semibold mb-4 font-mono">DOCUMENTATION</h4><ul className="space-y-3"><li><a href="#" className="text-secondary hover:text-neon-cyan transition-smooth font-mono flex items-center"><ExternalLink className="w-4 h-4 mr-2" />API Reference</a></li><li><a href="#" className="text-secondary hover:text-neon-cyan transition-smooth font-mono flex items-center"><ExternalLink className="w-4 h-4 mr-2" />Component Library</a></li></ul></div>
-                        <div className="bg-surface p-4 md:p-6 rounded-lg border border-strong"><h4 className="text-neon-green text-xl font-semibold mb-4 font-mono">EXAMPLES</h4><ul className="space-y-3"><li><a href="#" className="text-secondary hover:text-neon-green transition-smooth font-mono flex items-center"><ExternalLink className="w-4 h-4 mr-2" />Banking Dashboard</a></li><li><a href="#" className="text-secondary hover:text-neon-green transition-smooth font-mono flex items-center"><ExternalLink className="w-4 h-4 mr-2" />Wallet Integration</a></li></ul></div>
-                        <div className="bg-surface p-4 md:p-6 rounded-lg border border-strong"><h4 className="text-neon-orange text-xl font-semibold mb-4 font-mono">COMMUNITY</h4><ul className="space-y-3"><li><a href="#" className="text-secondary hover:text-neon-orange transition-smooth font-mono flex items-center"><ExternalLink className="w-4 h-4 mr-2" />GitHub Repository</a></li><li><a href="#" className="text-secondary hover:text-neon-orange transition-smooth font-mono flex items-center"><ExternalLink className="w-4 h-4 mr-2" />Discord Community</a></li></ul></div>
+                        <div className="bg-surface p-4 md:p-6 rounded-lg border border-strong"><h4 className="text-neon-cyan text-xl font-semibold mb-4 font-mono">DOCS</h4><ul className="space-y-3"><li><a href="#" className="text-secondary hover:text-neon-cyan transition-smooth font-mono flex items-center"><ExternalLink className="w-4 h-4 mr-2" />API Reference</a></li></ul></div>
+                        <div className="bg-surface p-4 md:p-6 rounded-lg border border-strong"><h4 className="text-neon-green text-xl font-semibold mb-4 font-mono">EXAMPLES</h4><ul className="space-y-3"><li><a href="#" className="text-secondary hover:text-neon-green transition-smooth font-mono flex items-center"><ExternalLink className="w-4 h-4 mr-2" />Banking Dashboard</a></li></ul></div>
+                        <div className="bg-surface p-4 md:p-6 rounded-lg border border-strong"><h4 className="text-neon-orange text-xl font-semibold mb-4 font-mono">COMMUNITY</h4><ul className="space-y-3"><li><a href="#" className="text-secondary hover:text-neon-orange transition-smooth font-mono flex items-center"><ExternalLink className="w-4 h-4 mr-2" />GitHub</a></li></ul></div>
                     </div>
                 </CardContent>
             </Card>
