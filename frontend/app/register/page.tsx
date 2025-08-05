@@ -192,41 +192,63 @@ export default function RegisterPage() {
                 </form>
               </TabsContent>
 
-              <TabsContent value="voice" className="space-y-4 mt-6">
-                <form onSubmit={handleVoiceSubmit} className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="voiceName" className="text-primary font-mono">
-                      Full Name
-                    </Label>
-                    <div className="relative">
-                      <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-neon-orange" />
-                      <Input id="voiceName" placeholder="Enter your full name" className="pl-10 bg-surface border-border text-primary focus:border-neon-orange focus-visible:ring-neon-orange" value={voiceFormData.name} onChange={(e) => setVoiceFormData({ ...voiceFormData, name: e.target.value })} required disabled={isProcessing} />
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="voiceEmail" className="text-primary font-mono">
-                      Email Address
-                    </Label>
-                    <div className="relative">
-                      <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-neon-cyan" />
-                      <Input id="voiceEmail" type="email" placeholder="Enter your email" className="pl-10 bg-surface border-border text-primary focus:border-neon-cyan focus-visible:ring-neon-cyan" value={voiceFormData.email} onChange={(e) => setVoiceFormData({ ...voiceFormData, email: e.target.value })} required disabled={isProcessing} />
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <Label className="text-primary font-mono">Voice Sample</Label>
-                    <div className="text-center p-8 border-2 border-dashed border-border rounded-lg bg-surface/50">
-                      <Button type="button" onClick={startRecording} disabled={isRecording || isProcessing} className={`w-full text-lg py-4 transition-smooth font-mono ${isProcessing ? "cursor-not-allowed bg-muted" : isRecording ? "bg-error text-primary pulse-recording cursor-not-allowed" : voiceBlob ? "btn-neon-green" : "btn-neon-purple"}`}>
-                        {isRecording ? (<><MicOff className="w-5 h-5 mr-2" />RECORDING... {countdown}s</>) : (<><Mic className="w-5 h-5 mr-2" />{voiceBlob ? "RECORD AGAIN" : "RECORD VOICE SAMPLE"}</>)}
-                      </Button>
-                      {voiceBlob && (<p className="text-sm text-neon-green mt-3 text-glow">Voice sample captured successfully.</p>)}
-                      <p className="text-xs text-muted-foreground mt-3">Speak clearly for 5 seconds to capture your voice pattern.</p>
-                    </div>
-                  </div>
-                  <Button type="submit" className="w-full btn-neon-cyan focus-visible:ring-accessible font-mono" disabled={isProcessing}>
-                    {isProcessing ? "PROCESSING..." : "REGISTER WITH VOICE"}
-                  </Button>
-                </form>
-              </TabsContent>
+             <TabsContent value="voice" className="space-y-4 mt-6">
+  <form onSubmit={handleVoiceSubmit} className="space-y-4">
+    <div className="space-y-1">
+      <Label className="text-primary font-mono text-lg">Voice SignUp</Label>
+      <p className="text-sm text-muted-foreground">
+        Say your full name and email address
+      </p>
+    </div>
+
+    <div className="text-center p-8 border-2 border-dashed border-border rounded-lg bg-surface/50">
+      <Button
+        type="button"
+        onClick={startRecording}
+        disabled={isRecording || isProcessing}
+        className={`w-full text-lg py-4 transition-smooth font-mono ${
+          isProcessing
+            ? "cursor-not-allowed bg-muted"
+            : isRecording
+            ? "bg-error text-primary pulse-recording cursor-not-allowed"
+            : voiceBlob
+            ? "btn-neon-green"
+            : "btn-neon-purple"
+        }`}
+      >
+        {isRecording ? (
+          <>
+            <MicOff className="w-5 h-5 mr-2" />
+            RECORDING... {countdown}s
+          </>
+        ) : (
+          <>
+            <Mic className="w-5 h-5 mr-2" />
+            {voiceBlob ? "RECORD AGAIN" : "RECORD VOICE SAMPLE"}
+          </>
+        )}
+      </Button>
+
+      {voiceBlob && (
+        <p className="text-sm text-neon-green mt-3 text-glow">
+          Voice captured successfully.
+        </p>
+      )}
+      <p className="text-xs text-muted-foreground mt-3">
+        Speak clearly for 5 seconds to capture your voice pattern.
+      </p>
+    </div>
+
+    <Button
+      type="submit"
+      className="w-full btn-neon-cyan focus-visible:ring-accessible font-mono"
+      disabled={isProcessing}
+    >
+      {isProcessing ? "PROCESSING..." : "REGISTER WITH VOICE"}
+    </Button>
+  </form>
+</TabsContent>
+
             </Tabs>
 
             <div className="mt-6 text-center">
