@@ -109,7 +109,7 @@ export default function LoginPage() {
         <div className="mb-6">
           <Link href="/" className="inline-flex items-center text-neon-cyan hover:text-primary transition-colors focus-visible:ring-accessible font-mono">
             <ArrowLeft className="w-4 h-4 mr-2" />
-            <span>BACK TO HOME</span>
+            <span>BACK</span>
           </Link>
         </div>
 

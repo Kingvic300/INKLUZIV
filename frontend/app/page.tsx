@@ -1,20 +1,16 @@
-'use client'; // Required for using state (for the mobile menu)
-
-import { useState } from 'react'; // Import useState for menu toggle
+'use client';
+import { useState } from 'react';
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import {
-  // ... (all your original icons)
   Mic, Eye, Hand, Ear, Code, ArrowRight, Shield, Cpu, Wifi, Brain, Gamepad2, Type, Volume2, MousePointer,
   Smartphone, Globe, Languages, Timer, Accessibility, Focus, Palette, ScanLine, Headphones, Vibrate,
   Camera, Fingerprint, Book,
-  Menu, // Added for hamburger icon
-  X,    // Added for close icon
+  Menu, X
 } from "lucide-react"
 
 export default function HomePage() {
-  // State for managing the mobile menu visibility
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
@@ -242,12 +238,11 @@ export default function HomePage() {
             <h3 className="text-4xl md:text-5xl font-bold text-primary mb-6">COMPREHENSIVE FEATURES</h3>
             <p className="text-lg md:text-xl text-muted-foreground">Complete accessibility solution for financial apps</p>
           </div>
-          {/* This grid is already well-structured for responsiveness */}
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               { icon: Mic, title: 'VOICE CONTROL', description: 'Complete voice navigation and command system', color: 'cyan' },
               { icon: Type, title: 'TEXT-TO-SPEECH', description: 'Real-time audio feedback for all elements', color: 'orange' },
-              //... The rest of your features array remains unchanged
               { icon: Shield, title: 'PRIVACY FIRST', description: 'Local processing, zero data collection', color: 'green' },
             ].map((feature, index) => {
               const Icon = feature.icon;

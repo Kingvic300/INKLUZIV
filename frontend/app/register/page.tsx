@@ -200,10 +200,10 @@ export default function RegisterPage() {
           <Link
             href="/"
             className="inline-flex items-center text-neon-cyan hover:text-primary transition-colors focus-visible:ring-accessible font-mono"
-            aria-label="Back to home"
+            aria-label="Back"
           >
             <ArrowLeft className="w-4 h-4 mr-2" aria-hidden="true" />
-            <span>BACK TO HOME</span>
+            <span>BACK</span>
           </Link>
         </div>
 
