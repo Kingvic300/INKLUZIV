@@ -11,8 +11,8 @@ const firaCode = Fira_Code({
 })
 
 export const metadata: Metadata = {
-  title: "INKLUZIV - Voice Authentication System",
-  description: "Next-generation voice-powered authentication platform",
+  title: "INKLUZIV",
+  description: "Next-generation software development kit for accessible financial applications",
     generator: 'v0.dev'
 }
 

@@ -41,7 +41,7 @@ export default function DocsPage() {
             Complete documentation for accessible banking
           </p>
           <div className="flex justify-center flex-wrap gap-3">
-            <Badge className="bg-neon-green text-black text-base px-4 py-1.5 font-mono">v2.1.0</Badge>
+            <Badge className="bg-neon-green text-black text-base px-4 py-1.5 font-mono">v1.0.0</Badge>
             <Badge className="bg-neon-cyan text-black text-base px-4 py-1.5 font-mono">WCAG 2.1 AA</Badge>
             <Badge className="bg-neon-orange text-black text-base px-4 py-1.5 font-mono">React 18+</Badge>
           </div>
