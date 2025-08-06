@@ -5,8 +5,9 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import {
-  Mic, Eye, Hand, Ear, Code, Shield, Brain, Wifi,
-  Book, Accessibility, Menu, X
+  Mic, Eye, Hand, Ear, Code, Shield, Brain, Wifi, Book, Accessibility, Gamepad2, MousePointer,
+  Vibrate, Palette, Focus, ScanLine, Headphones, Type, Volume2, Timer, Languages, Camera,
+  Fingerprint, Smartphone, Globe, Menu, X
 } from "lucide-react"
 
 export default function HomePage() {
@@ -27,9 +28,8 @@ export default function HomePage() {
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
+          {/* Desktop Navigation with "Experience Demo" removed */}
           <div className="hidden md:flex space-x-3">
-            {/* --- "EXPERIENCE DEMO" BUTTON REMOVED FROM DESKTOP NAVBAR --- */}
             <Link href="/docs">
               <Button
                 variant="outline"
@@ -48,22 +48,16 @@ export default function HomePage() {
 
           {/* Mobile Menu Button */}
           <div className="md:hidden">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-primary hover:bg-surface-elevated"
-            >
+            <Button variant="ghost" size="icon" onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-primary hover:bg-surface-elevated">
               {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </Button>
           </div>
         </div>
 
-        {/* Mobile Menu Flyout */}
+        {/* Mobile Menu Flyout with "Experience Demo" removed */}
         {isMenuOpen && (
           <div className="md:hidden absolute top-full left-0 w-full bg-surface-elevated/95 backdrop-blur-lg border-t border-neon-cyan/30">
             <div className="container mx-auto px-4 py-8 flex flex-col space-y-4">
-              {/* --- "EXPERIENCE DEMO" BUTTON REMOVED FROM MOBILE NAVBAR --- */}
               <Link href="/docs" onClick={() => setIsMenuOpen(false)}>
                 <Button variant="outline" className="w-full justify-center border-neon-green text-neon-green hover:bg-neon-green hover:text-black">
                   <Book className="w-4 h-4 mr-2" />
@@ -89,8 +83,8 @@ export default function HomePage() {
               NO LIMITS. JUST ACCESS.
             </span>
           </div>
-          {/* --- HEADING MADE SMALLER ON MOBILE --- */}
-          <h2 className="text-5xl sm:text-6xl lg:text-8xl font-bold text-primary mb-8 leading-tight float">
+          {/* KEY FIX: More aggressive responsive font scaling for the main heading */}
+          <h2 className="text-5xl md:text-7xl lg:text-8xl font-bold text-primary mb-8 leading-tight float">
             ACCESSIBILITY
             <br />
             <span className="text-gradient text-glow">REDEFINED</span>
@@ -102,20 +96,13 @@ export default function HomePage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
             <Link href="/register">
-              <Button
-                size="lg"
-                className="btn-neon-cyan text-lg md:text-xl px-10 md:px-12 py-5 md:py-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neon-cyan focus-visible:ring-offset-2 transition-smooth font-mono"
-              >
+              <Button size="lg" className="btn-neon-cyan text-lg md:text-xl px-10 md:px-12 py-5 md:py-6 transition-smooth font-mono">
                 <Wifi className="w-5 md:w-6 h-5 md:h-6 mr-3" />
                 EXPERIENCE DEMO
               </Button>
             </Link>
             <Link href="/docs">
-              <Button
-                size="lg"
-                variant="outline"
-                className="text-lg md:text-xl px-10 md:px-12 py-5 md:py-6 border-neon-orange text-neon-orange hover:bg-neon-orange hover:text-black bg-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neon-orange focus-visible:ring-offset-2 transition-smooth font-mono"
-              >
+              <Button size="lg" variant="outline" className="text-lg md:text-xl px-10 md:px-12 py-5 md:py-6 border-neon-orange text-neon-orange hover:bg-neon-orange hover:text-black bg-transparent transition-smooth font-mono">
                 <Code className="w-5 md:w-6 h-5 md:h-6 mr-3" />
                 VIEW DOCS
               </Button>
@@ -124,37 +111,70 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* The rest of the page remains unchanged */}
       {/* Problem Statement */}
       <section className="py-20 md:py-24 px-4 bg-surface-elevated/50">
         <div className="container mx-auto">
           <div className="text-center mb-12 md:mb-16">
             <h3 className="text-4xl md:text-5xl font-bold text-primary mb-6">THE CHALLENGE</h3>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
-              Digital finance excludes millions of users with disabilities
-            </p>
+            <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">Digital finance excludes millions of users with disabilities</p>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
-            <Card className="card-futuristic border-holographic">
-              <CardHeader><div className="w-16 h-16 bg-neon-orange rounded-lg flex items-center justify-center mb-6 shadow-neon-orange"><Eye className="w-8 h-8 text-black" /></div><CardTitle className="text-2xl text-primary">VISUAL BARRIERS</CardTitle><CardDescription className="text-muted-foreground text-lg">Complex interfaces without screen reader support</CardDescription></CardHeader>
-            </Card>
-            <Card className="card-futuristic border-holographic">
-              <CardHeader><div className="w-16 h-16 bg-neon-cyan rounded-lg flex items-center justify-center mb-6 shadow-neon-cyan"><Ear className="w-8 h-8 text-black" /></div><CardTitle className="text-2xl text-primary">AUDIO LIMITATIONS</CardTitle><CardDescription className="text-muted-foreground text-lg">Missing captions and alternative audio formats</CardDescription></CardHeader>
-            </Card>
-            <Card className="card-futuristic border-holographic">
-              <CardHeader><div className="w-16 h-16 bg-neon-purple rounded-lg flex items-center justify-center mb-6 shadow-neon-purple"><Hand className="w-8 h-8 text-black" /></div><CardTitle className="text-2xl text-primary">MOTOR CHALLENGES</CardTitle><CardDescription className="text-muted-foreground text-lg">Small touch targets and complex gestures</CardDescription></CardHeader>
-            </Card>
+            <Card className="card-futuristic border-holographic"><CardHeader><div className="w-16 h-16 bg-neon-orange rounded-lg flex items-center justify-center mb-6 shadow-neon-orange"><Eye className="w-8 h-8 text-black" /></div><CardTitle className="text-2xl text-primary">VISUAL BARRIERS</CardTitle><CardDescription className="text-muted-foreground text-lg">Complex interfaces without proper screen reader support</CardDescription></CardHeader></Card>
+            <Card className="card-futuristic border-holographic"><CardHeader><div className="w-16 h-16 bg-neon-cyan rounded-lg flex items-center justify-center mb-6 shadow-neon-cyan"><Ear className="w-8 h-8 text-black" /></div><CardTitle className="text-2xl text-primary">AUDIO LIMITATIONS</CardTitle><CardDescription className="text-muted-foreground text-lg">Missing captions and alternative audio formats</CardDescription></CardHeader></Card>
+            <Card className="card-futuristic border-holographic"><CardHeader><div className="w-16 h-16 bg-neon-purple rounded-lg flex items-center justify-center mb-6 shadow-neon-purple"><Hand className="w-8 h-8 text-black" /></div><CardTitle className="text-2xl text-primary">MOTOR CHALLENGES</CardTitle><CardDescription className="text-muted-foreground text-lg">Small touch targets and complex gestures</CardDescription></CardHeader></Card>
           </div>
         </div>
       </section>
-      
+
+      {/* Solution */}
+      <section className="py-20 md:py-24 px-4 relative">
+        <div className="container mx-auto text-center relative z-10">
+          <h3 className="text-4xl md:text-5xl font-bold text-primary mb-8">THE SOLUTION</h3>
+          <div className="max-w-5xl mx-auto mb-12 md:mb-16">
+            <p className="text-lg md:text-xl text-muted-foreground mb-12">A <strong className="text-neon-cyan text-glow">comprehensive accessibility SDK</strong> for financial applications</p>
+            <div className="card-futuristic p-8 md:p-12 rounded-lg border-holographic">
+              <h4 className="text-2xl md:text-3xl font-bold text-primary mb-12">INKLUZIV SDK ENABLES ACCESS FOR:</h4>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+                <div className="text-center float" style={{ animationDelay: "0s" }}><div className="w-20 h-20 md:w-24 md:h-24 bg-neon-cyan rounded-full flex items-center justify-center mx-auto mb-6 shadow-neon-cyan pulse-glow"><Eye className="w-10 h-10 md:w-12 md:h-12 text-black" /></div><h5 className="text-lg md:text-xl font-semibold text-primary">VISUAL</h5></div>
+                <div className="text-center float" style={{ animationDelay: "1.5s" }}><div className="w-20 h-20 md:w-24 md:h-24 bg-neon-orange rounded-full flex items-center justify-center mx-auto mb-6 shadow-neon-orange pulse-glow"><Hand className="w-10 h-10 md:w-12 md:h-12 text-black" /></div><h5 className="text-lg md:text-xl font-semibold text-primary">MOTOR</h5></div>
+                <div className="text-center float" style={{ animationDelay: "3s" }}><div className="w-20 h-20 md:w-24 md:h-24 bg-neon-purple rounded-full flex items-center justify-center mx-auto mb-6 shadow-neon-purple pulse-glow"><Ear className="w-10 h-10 md:w-12 md:h-12 text-black" /></div><h5 className="text-lg md:text-xl font-semibold text-primary">HEARING</h5></div>
+                <div className="text-center float" style={{ animationDelay: "4.5s" }}><div className="w-20 h-20 md:w-24 md:h-24 bg-neon-green rounded-full flex items-center justify-center mx-auto mb-6 shadow-neon-green pulse-glow"><Brain className="w-10 h-10 md:w-12 md:h-12 text-black" /></div><h5 className="text-lg md:text-xl font-semibold text-primary">COGNITIVE</h5></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Comprehensive Features */}
+      <section className="py-20 md:py-24 px-4 bg-surface-elevated/50">
+        <div className="container mx-auto">
+          <div className="text-center mb-12 md:mb-16">
+            <h3 className="text-4xl md:text-5xl font-bold text-primary mb-6">COMPREHENSIVE FEATURES</h3>
+            <p className="text-lg md:text-xl text-muted-foreground">Complete accessibility solution for financial apps</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[ { icon: Mic, title: 'VOICE CONTROL', description: 'Complete voice navigation system', color: 'cyan' }, { icon: Type, title: 'TEXT-TO-SPEECH', description: 'Real-time audio feedback for all elements', color: 'orange' }, { icon: Volume2, title: 'LIVE CAPTIONS', description: 'Real-time subtitles for all audio content', color: 'purple' }, { icon: Headphones, title: 'AUDIO DESCRIPTIONS', description: 'Detailed audio descriptions for visual content', color: 'green' }, { icon: Eye, title: 'SCREEN READER', description: 'NVDA, JAWS, VoiceOver optimization', color: 'cyan' }, { icon: Palette, title: 'HIGH CONTRAST', description: 'Enhanced visual contrast modes', color: 'orange' }, { icon: Focus, title: 'FOCUS INDICATORS', description: 'Clear visual focus indicators', color: 'purple' }, { icon: ScanLine, title: 'MAGNIFICATION', description: 'Built-in screen magnification support', color: 'green' }, { icon: Hand, title: 'LARGE TARGETS', description: 'WCAG 2.1 AA compliant touch zones', color: 'cyan' }, { icon: Gamepad2, title: 'KEYBOARD NAV', description: 'Full keyboard navigation support', color: 'orange' }, { icon: MousePointer, title: 'SWITCH CONTROL', description: 'Switch and assistive device support', color: 'purple' }, { icon: Vibrate, title: 'HAPTIC FEEDBACK', description: 'Tactile responses and vibration patterns', color: 'green' }, { icon: Brain, title: 'COGNITIVE SUPPORT', description: 'Simplified interfaces and clear language', color: 'cyan' }, { icon: Timer, title: 'TIMING CONTROL', description: 'Adjustable timeouts and session management', color: 'orange' }, { icon: Languages, title: 'MULTI-LANGUAGE', description: 'Support for 50+ languages and RTL', color: 'purple' }, { icon: Globe, title: 'LOCALIZATION', description: 'Cultural and regional accessibility standards', color: 'green' }, { icon: Camera, title: 'COMPUTER VISION', description: 'AI-powered visual content analysis', color: 'cyan' }, { icon: Fingerprint, title: 'BIOMETRIC AUTH', description: 'Accessible biometric authentication', color: 'orange' }, { icon: Smartphone, title: 'MOBILE FIRST', description: 'Mobile accessibility optimization', color: 'purple' }, { icon: Shield, title: 'PRIVACY FIRST', description: 'Local processing, zero data collection', color: 'green' }].map((feature, index) => {const Icon = feature.icon; const colorClass = `neon-${feature.color}`; return (<Card key={index} className="card-futuristic p-6"><CardContent className="p-0"><div className={`w-14 h-14 bg-${colorClass} rounded-lg flex items-center justify-center mb-4 shadow-${colorClass}`}><Icon className="w-7 h-7 text-black" /></div><CardTitle className="text-lg text-primary mb-3">{feature.title}</CardTitle><CardDescription className="text-muted-foreground text-sm">{feature.description}</CardDescription></CardContent></Card>)})}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-24 px-4 relative overflow-hidden">
+        <div className="container mx-auto text-center relative z-10">
+          <h3 className="text-4xl md:text-5xl font-bold text-primary mb-6">READY TO BUILD ACCESSIBLE?</h3>
+          <p className="text-lg md:text-xl text-muted-foreground mb-12 max-w-3xl mx-auto">Join the accessibility revolution. Experience the future of inclusive financial interfaces.</p>
+          <div className="flex flex-col sm:flex-row gap-6 justify-center">
+            <Link href="/register"><Button size="lg" className="btn-neon-orange text-lg md:text-xl px-12 md:px-16 py-6 md:py-8 transition-smooth font-mono">TRY DEMO</Button></Link>
+            <Link href="/docs"><Button size="lg" variant="outline" className="text-lg md:text-xl px-12 md:px-16 py-6 md:py-8 border-neon-cyan text-neon-cyan hover:bg-neon-cyan hover:text-black bg-transparent transition-smooth font-mono"><Code className="w-5 md:w-6 h-5 md:h-6 mr-4" />VIEW DOCS</Button></Link>
+          </div>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer className="bg-surface-elevated/80 border-t border-neon-cyan/30 py-12 px-4">
         <div className="container mx-auto text-center">
           <div className="flex items-center justify-center space-x-3 mb-6">
-            <div className="w-8 h-8 bg-neon-orange rounded-lg flex items-center justify-center shimmer">
-              <Accessibility className="w-5 h-5 text-black" />
-            </div>
+            <div className="w-8 h-8 bg-neon-orange rounded-lg flex items-center justify-center shimmer"><Accessibility className="w-5 h-5 text-black" /></div>
             <span className="text-muted-foreground text-lg">© 2025 INKLUZIV</span>
           </div>
           <p className="text-secondary text-matrix">Making digital finance accessible for everyone</p>
