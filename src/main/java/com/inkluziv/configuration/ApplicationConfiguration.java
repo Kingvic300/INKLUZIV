@@ -57,7 +57,7 @@ public class ApplicationConfiguration {
             @Override
             public void addCorsMappings(@NonNull CorsRegistry corsRegistry){
                 corsRegistry.addMapping("/**")
-                        .allowedOrigins("http://localhost:5173", "https://connectsphere.com")
+                        .allowedOrigins("http://localhost:3000", "http://localhost:5173", "https://connectsphere.com")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true);

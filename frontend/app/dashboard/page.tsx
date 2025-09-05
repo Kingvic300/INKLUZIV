@@ -35,6 +35,8 @@ import {
 } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { useSpeechRecognition, useSpeechSynthesis } from "@/hooks/use-speech"
+import Link from "next/link"
+import { Wallet } from "lucide-react"
 
 // Initial Transaction Data
 const initialTransactions = [
@@ -232,7 +234,7 @@ export default function UnifiedDashboardPage() {
           <div className="flex items-center space-x-4">
             <Button variant="outline" size="sm" onClick={handleLogout} className="border-neon-orange text-neon-orange hover:bg-neon-orange hover:text-black bg-transparent transition-smooth font-mono">
               <LogOut className="w-4 h-4 mr-2" />
-              BACK
+              LOGOUT
             </Button>
           </div>
         </div>
@@ -265,6 +267,12 @@ export default function UnifiedDashboardPage() {
               <CardContent className="space-y-2">
                 <Button onClick={handleEditProfile} variant="outline" className="w-full justify-start bg-transparent border-neon-cyan text-neon-cyan hover:bg-neon-cyan hover:text-black transition-smooth font-mono"><User className="w-4 h-4 mr-2" />EDIT PROFILE</Button>
                 <Button onClick={handleChangePassword} variant="outline" className="w-full justify-start bg-transparent border-neon-green text-neon-green hover:bg-neon-green hover:text-black transition-smooth font-mono"><Key className="w-4 h-4 mr-2" />CHANGE PASSWORD</Button>
+                <Link href="/banking">
+                  <Button variant="outline" className="w-full justify-start bg-transparent border-neon-purple text-neon-purple hover:bg-neon-purple hover:text-black transition-smooth font-mono">
+                    <Wallet className="w-4 h-4 mr-2" />
+                    USDT WALLET
+                  </Button>
+                </Link>
               </CardContent>
             </Card>
           </div>

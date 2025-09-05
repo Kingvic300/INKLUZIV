@@ -95,10 +95,10 @@ export default function HomePage() {
             <strong className="text-neon-cyan text-glow">INKLUZIV empowers universal access.</strong>
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
-            <Link href="/register">
+            <Link href="/banking">
               <Button size="lg" className="btn-neon-cyan text-lg md:text-xl px-10 md:px-12 py-5 md:py-6 transition-smooth font-mono">
                 <Wifi className="w-5 md:w-6 h-5 md:h-6 mr-3" />
-                EXPERIENCE DEMO
+                TRY WALLET DEMO
               </Button>
             </Link>
             <Link href="/docs">
@@ -164,7 +164,7 @@ export default function HomePage() {
           <h3 className="text-4xl md:text-5xl font-bold text-primary mb-6">READY TO BUILD ACCESSIBLE?</h3>
           <p className="text-lg md:text-xl text-muted-foreground mb-12 max-w-3xl mx-auto">Join the accessibility revolution. Experience the future of inclusive financial interfaces.</p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
-            <Link href="/register"><Button size="lg" className="btn-neon-orange text-lg md:text-xl px-12 md:px-16 py-6 md:py-8 transition-smooth font-mono">TRY DEMO</Button></Link>
+            <Link href="/banking"><Button size="lg" className="btn-neon-orange text-lg md:text-xl px-12 md:px-16 py-6 md:py-8 transition-smooth font-mono">TRY WALLET DEMO</Button></Link>
             <Link href="/docs"><Button size="lg" variant="outline" className="text-lg md:text-xl px-12 md:px-16 py-6 md:py-8 border-neon-cyan text-neon-cyan hover:bg-neon-cyan hover:text-black bg-transparent transition-smooth font-mono"><Code className="w-5 md:w-6 h-5 md:h-6 mr-4" />VIEW DOCS</Button></Link>
           </div>
         </div>
