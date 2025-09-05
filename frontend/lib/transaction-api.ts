@@ -1,21 +1,8 @@
-// Transaction API client for INKLUZIV USDT functionality
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080"
-
 export interface SendUSDTRequest {
   recipientAddress: string
   recipientName: string
   amountNaira: number
-  description?: string
-}
-
-export interface SendUSDTResponse {
-  message: string
-  transactionHash: string
-  amountNaira: number
-  amountUSDT: number
-  exchangeRate: number
-  status: string
-  transactionId: string
+  description: string
 }
 
 export interface Transaction {
@@ -30,82 +17,106 @@ export interface Transaction {
   status: string
   type: string
   createdAt: string
-  completedAt?: string
-  description?: string
-  networkFee?: string
-}
-
-export interface TransactionHistoryResponse {
-  message: string
-  transactions: Transaction[]
-  totalPages: number
-  totalElements: number
-  currentPage: number
+  description: string
 }
 
 export interface WalletBalanceResponse {
-  message: string
   balanceNaira: number
   balanceUSDT: number
-  walletAddress: string
   exchangeRate: number
+  walletAddress: string
 }
 
-export class TransactionAPIClient {
+export interface TransactionHistoryResponse {
+  transactions: Transaction[]
+  hasMore: boolean
+}
+
+export interface SendUSDTResponse {
+  transactionId: string
+  amountNaira: number
+  amountUSDT: number
+  exchangeRate: number
+  transactionHash: string
+  status: string
+}
+
+class TransactionAPI {
   private baseURL: string
-  private token: string | null = null
 
   constructor() {
-    this.baseURL = API_BASE_URL
-    if (typeof window !== "undefined") {
-      this.token = localStorage.getItem("auth_token")
+    this.baseURL = '/api'
+  }
+
+  private getAuthToken(): string | null {
+    // Get token from localStorage or cookies
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('auth_token') || 'demo-token'
+    }
+    return 'demo-token'
+  }
+
+  private getHeaders(): HeadersInit {
+    const token = this.getAuthToken()
+    return {
+      'Content-Type': 'application/json',
+      ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
     }
   }
 
-  private async request(endpoint: string, options: RequestInit = {}) {
-    const url = `${this.baseURL}${endpoint}`
-    const headers = {
-      "Content-Type": "application/json",
-      ...options.headers,
-    }
-
-    if (this.token) {
-      headers["Authorization"] = `Bearer ${this.token}`
-    }
-
-    const response = await fetch(url, {
-      ...options,
-      headers,
+  async getWalletBalance(): Promise<WalletBalanceResponse> {
+    const response = await fetch(`${this.baseURL}/wallet`, {
+      method: 'GET',
+      headers: this.getHeaders(),
     })
 
     if (!response.ok) {
-      const errorText = await response.text()
-      throw new Error(`[TRANSACTION_API_ERROR: ${response.status}] ${errorText}`)
+      throw new Error('Failed to fetch wallet balance')
+    }
+
+    return response.json()
+  }
+
+  async createWallet(): Promise<WalletBalanceResponse> {
+    const response = await fetch(`${this.baseURL}/wallet`, {
+      method: 'POST',
+      headers: this.getHeaders(),
+    })
+
+    if (!response.ok) {
+      throw new Error('Failed to create wallet')
+    }
+
+    return response.json()
+  }
+
+  async getTransactionHistory(page: number, limit: number): Promise<TransactionHistoryResponse> {
+    const response = await fetch(`${this.baseURL}/transactions?page=${page}&limit=${limit}`, {
+      method: 'GET',
+      headers: this.getHeaders(),
+    })
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch transaction history')
     }
 
     return response.json()
   }
 
   async sendUSDT(request: SendUSDTRequest): Promise<SendUSDTResponse> {
-    return this.request("/transactions/send-usdt", {
-      method: "POST",
+    const response = await fetch(`${this.baseURL}/transactions`, {
+      method: 'POST',
+      headers: this.getHeaders(),
       body: JSON.stringify(request),
     })
-  }
 
-  async getTransactionHistory(page: number = 0, size: number = 10): Promise<TransactionHistoryResponse> {
-    return this.request(`/transactions/history?page=${page}&size=${size}`)
-  }
+    if (!response.ok) {
+      const error = await response.json()
+      throw new Error(error.error || 'Failed to send USDT')
+    }
 
-  async getWalletBalance(): Promise<WalletBalanceResponse> {
-    return this.request("/transactions/balance")
-  }
-
-  async createWallet(): Promise<WalletBalanceResponse> {
-    return this.request("/transactions/create-wallet", {
-      method: "POST",
-    })
+    return response.json()
   }
 }
 
-export const transactionAPI = new TransactionAPIClient()
+export const transactionAPI = new TransactionAPI()

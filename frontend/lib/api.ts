@@ -1,5 +1,5 @@
 // API client for INKLUZIV backend - Cyberpunk Edition
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080"
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://inkluziv.onrender.com"
 
 export class APIClient {
   private baseURL: string
@@ -21,6 +21,7 @@ export class APIClient {
     }
 
     if (this.token) {
+      // @ts-ignore
       headers["Authorization"] = `Bearer ${this.token}`
     }
 
