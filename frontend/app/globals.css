@@ -51,6 +51,15 @@
   --gradient-holographic: conic-gradient(from 0deg, transparent, rgba(0, 255, 255, 0.1), transparent);
 }
 
+/* Add missing color definitions */
+:root {
+  --color-surface: #0f1629;
+  --color-surface-elevated: #1a1f3a;
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #a0a9c0;
+  --color-text-muted: #6b7280;
+}
+
 .dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);

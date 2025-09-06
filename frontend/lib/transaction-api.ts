@@ -41,81 +41,24 @@ export interface SendUSDTResponse {
   status: string
 }
 
+// Re-export from main API client for backward compatibility
+import { apiClient } from './api'
+
 class TransactionAPI {
-  private baseURL: string
-
-  constructor() {
-    this.baseURL = '/api'
-  }
-
-  private getAuthToken(): string | null {
-    // Get token from localStorage or cookies
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('auth_token') || 'demo-token'
-    }
-    return 'demo-token'
-  }
-
-  private getHeaders(): HeadersInit {
-    const token = this.getAuthToken()
-    return {
-      'Content-Type': 'application/json',
-      ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
-    }
-  }
-
   async getWalletBalance(): Promise<WalletBalanceResponse> {
-    const response = await fetch(`${this.baseURL}/wallet`, {
-      method: 'GET',
-      headers: this.getHeaders(),
-    })
-
-    if (!response.ok) {
-      throw new Error('Failed to fetch wallet balance')
-    }
-
-    return response.json()
+    return apiClient.getWalletBalance()
   }
 
   async createWallet(): Promise<WalletBalanceResponse> {
-    const response = await fetch(`${this.baseURL}/wallet`, {
-      method: 'POST',
-      headers: this.getHeaders(),
-    })
-
-    if (!response.ok) {
-      throw new Error('Failed to create wallet')
-    }
-
-    return response.json()
+    return apiClient.createWallet()
   }
 
   async getTransactionHistory(page: number, limit: number): Promise<TransactionHistoryResponse> {
-    const response = await fetch(`${this.baseURL}/transactions?page=${page}&limit=${limit}`, {
-      method: 'GET',
-      headers: this.getHeaders(),
-    })
-
-    if (!response.ok) {
-      throw new Error('Failed to fetch transaction history')
-    }
-
-    return response.json()
+    return apiClient.getTransactionHistory(page, limit)
   }
 
   async sendUSDT(request: SendUSDTRequest): Promise<SendUSDTResponse> {
-    const response = await fetch(`${this.baseURL}/transactions`, {
-      method: 'POST',
-      headers: this.getHeaders(),
-      body: JSON.stringify(request),
-    })
-
-    if (!response.ok) {
-      const error = await response.json()
-      throw new Error(error.error || 'Failed to send USDT')
-    }
-
-    return response.json()
+    return apiClient.sendUSDT(request)
   }
 }
 

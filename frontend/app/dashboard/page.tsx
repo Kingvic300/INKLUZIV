@@ -270,7 +270,7 @@ export default function UnifiedDashboardPage() {
                 <Link href="/banking">
                   <Button variant="outline" className="w-full justify-start bg-transparent border-neon-purple text-neon-purple hover:bg-neon-purple hover:text-black transition-smooth font-mono">
                     <Wallet className="w-4 h-4 mr-2" />
-                    USDT WALLET
+                    ACCESS USDT WALLET
                   </Button>
                 </Link>
               </CardContent>
