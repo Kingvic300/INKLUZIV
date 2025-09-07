@@ -16,11 +16,10 @@ import {
   Mic, MicOff, Send, History, Volume2, ArrowUpRight, ArrowDownLeft,
   Settings, CheckCircle, Zap, Terminal, User, Shield, LogOut, Key,
   Accessibility, Wallet, Copy, ExternalLink, Clock, DollarSign,
-  TrendingUp, AlertCircle, Loader2
+  TrendingUp, AlertCircle, Loader2, Database
 } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { useSpeechRecognition, useSpeechSynthesis } from "@/hooks/use-speech"
-import { apiClient } from "@/lib/api"
 
 interface Transaction {
   id: string
@@ -37,7 +36,98 @@ interface Transaction {
   description: string
 }
 
-export default function BankingPage() {
+// Mock API client to simulate backend
+const mockApiClient = {
+  getWalletBalance: async () => {
+    await new Promise(resolve => setTimeout(resolve, 800))
+    return {
+      balanceNaira: 250000,
+      balanceUSDT: 156.25,
+      exchangeRate: 1600,
+      walletAddress: "0x742d35Cc6634C0532925a3b8D654d22a73ED9c8b"
+    }
+  },
+
+  createWallet: async () => {
+    await new Promise(resolve => setTimeout(resolve, 1200))
+    return {
+      balanceNaira: 0,
+      balanceUSDT: 0,
+      exchangeRate: 1600,
+      walletAddress: "0x" + Math.random().toString(16).substring(2, 42)
+    }
+  },
+
+  getTransactionHistory: async () => {
+    await new Promise(resolve => setTimeout(resolve, 600))
+
+    const mockTransactions: Transaction[] = [
+      {
+        id: "tx1",
+        userId: "user1",
+        recipientAddress: "0x8ba1f109551bD432803012645Hac136c33464b",
+        recipientName: "John Doe",
+        amountNaira: 25000,
+        amountUSDT: 15.625,
+        exchangeRate: 1600,
+        transactionHash: "0x1234567890abcdef1234567890abcdef12345678",
+        status: "COMPLETED",
+        type: "SEND",
+        createdAt: new Date(Date.now() - 3600000).toISOString(),
+        description: "Payment for services"
+      },
+      {
+        id: "tx2",
+        userId: "user1",
+        recipientAddress: "0x3c44cdddb6a900fa2b585dd299e03d12fa4263ec",
+        recipientName: "Alice Smith",
+        amountNaira: 50000,
+        amountUSDT: 31.25,
+        exchangeRate: 1600,
+        transactionHash: "0xabcdef1234567890abcdef1234567890abcdef12",
+        status: "COMPLETED",
+        type: "SEND",
+        createdAt: new Date(Date.now() - 86400000).toISOString(),
+        description: "Transfer to savings"
+      },
+      {
+        id: "tx3",
+        userId: "user1",
+        recipientAddress: "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
+        recipientName: "Bob Wilson",
+        amountNaira: 12000,
+        amountUSDT: 7.5,
+        exchangeRate: 1600,
+        transactionHash: "0x567890abcdef1234567890abcdef1234567890ab",
+        status: "PENDING",
+        type: "SEND",
+        createdAt: new Date(Date.now() - 1800000).toISOString(),
+        description: "Equipment purchase"
+      }
+    ]
+
+    return {
+      transactions: mockTransactions,
+      total: mockTransactions.length
+    }
+  },
+
+  sendUSDT: async (request: any) => {
+    await new Promise(resolve => setTimeout(resolve, 2000))
+
+    const mockHash = "0x" + Math.random().toString(16).substring(2, 66)
+    return {
+      transactionId: "tx_" + Math.random().toString(36).substring(2),
+      transactionHash: mockHash,
+      amountNaira: request.amountNaira,
+      amountUSDT: request.amountNaira / 1600,
+      exchangeRate: 1600,
+      status: "COMPLETED"
+    }
+  }
+}
+
+export default function SimulatedBankingPage() {
   // --- STATE MANAGEMENT ---
   const [activeTab, setActiveTab] = useState("wallet")
   const [balance, setBalance] = useState(0)
@@ -50,6 +140,7 @@ export default function BankingPage() {
   const [isSendDialogOpen, setIsSendDialogOpen] = useState(false)
   const [currentField, setCurrentField] = useState<string>("")
   const [isConfirming, setIsConfirming] = useState(false)
+  const [demoMode] = useState(true)
 
   // Send USDT Form State
   const [sendForm, setSendForm] = useState({
@@ -81,11 +172,11 @@ export default function BankingPage() {
   useEffect(() => {
     loadWalletData()
     loadTransactionHistory()
-    
+
     // Welcome message for wallet
     if (voiceEnabled && ttsSupported && textToSpeechEnabled) {
       const timer = setTimeout(() => {
-        const welcomeMessage = "Welcome to your INKLUZIV USDT wallet. You can send cryptocurrency using voice commands. Say 'help' for available commands."
+        const welcomeMessage = "Welcome to your INKLUZIV USDT wallet demo. You can send cryptocurrency using voice commands. Say 'help' for available commands."
         speak(welcomeMessage)
         if (subtitlesEnabled) {
           setCurrentSubtitle(welcomeMessage)
@@ -100,7 +191,7 @@ export default function BankingPage() {
     if (transcript && transcript.toLowerCase() !== lastCommand) {
       const lowerCaseTranscript = transcript.toLowerCase()
       setLastCommand(lowerCaseTranscript)
-      
+
       if (currentField) {
         handleVoiceInput(lowerCaseTranscript)
       } else {
@@ -111,10 +202,10 @@ export default function BankingPage() {
 
   const handleVoiceInput = (input: string) => {
     const cleanInput = input.trim()
-    
+
     if (currentField === "recipientAddress") {
       setSendForm(prev => ({ ...prev, recipientAddress: cleanInput }))
-      
+
       if (voiceEnabled && ttsSupported && textToSpeechEnabled) {
         speak(`Recipient address entered: ${cleanInput}. Now say the recipient name.`)
         setCurrentSubtitle(`Address: ${cleanInput}`)
@@ -123,7 +214,7 @@ export default function BankingPage() {
       setCurrentField("recipientName")
     } else if (currentField === "recipientName") {
       setSendForm(prev => ({ ...prev, recipientName: cleanInput }))
-      
+
       if (voiceEnabled && ttsSupported && textToSpeechEnabled) {
         speak(`Recipient name: ${cleanInput}. Now say the amount in naira.`)
         setCurrentSubtitle(`Name: ${cleanInput}`)
@@ -134,7 +225,7 @@ export default function BankingPage() {
       // Extract numbers from voice input
       const amount = cleanInput.replace(/[^\d.]/g, '')
       setSendForm(prev => ({ ...prev, amountNaira: amount }))
-      
+
       if (voiceEnabled && ttsSupported && textToSpeechEnabled) {
         speak(`Amount: ${amount} naira. Say a description or say 'send' to proceed.`)
         setCurrentSubtitle(`Amount: ₦${amount}`)
@@ -146,7 +237,7 @@ export default function BankingPage() {
         confirmTransaction()
       } else {
         setSendForm(prev => ({ ...prev, description: cleanInput }))
-        
+
         if (voiceEnabled && ttsSupported && textToSpeechEnabled) {
           speak(`Description: ${cleanInput}. Say 'send' to confirm the transaction.`)
           setCurrentSubtitle(`Description: ${cleanInput}`)
@@ -163,16 +254,16 @@ export default function BankingPage() {
       }
       return
     }
-    
+
     setIsConfirming(true)
     const confirmationMessage = `Confirming transaction: Send ${sendForm.amountNaira} naira to ${sendForm.recipientName || 'recipient'} at address ${sendForm.recipientAddress}. Say 'confirm' to proceed or 'cancel' to abort.`
-    
+
     if (voiceEnabled && ttsSupported && textToSpeechEnabled) {
       speak(confirmationMessage)
       setCurrentSubtitle(confirmationMessage)
       setTimeout(() => setCurrentSubtitle(""), 8000)
     }
-    
+
     setCurrentField("confirmation")
   }
 
@@ -183,7 +274,7 @@ export default function BankingPage() {
       setCurrentSubtitle(`Speak your ${fieldLabel.toLowerCase()}`)
       setTimeout(() => setCurrentSubtitle(""), 3000)
     }
-    
+
     if (!isListening && speechSupported) {
       startListening()
     }
@@ -193,28 +284,36 @@ export default function BankingPage() {
   const loadWalletData = async () => {
     try {
       setIsLoading(true)
-      const walletData = await apiClient.getWalletBalance()
+      const walletData = await mockApiClient.getWalletBalance()
       setBalance(walletData.balanceNaira)
       setUsdtBalance(walletData.balanceUSDT)
       setExchangeRate(walletData.exchangeRate)
       setWalletAddress(walletData.walletAddress)
+
+      if (demoMode) {
+        toast({
+          title: "Demo Wallet Loaded",
+          description: "Simulated USDT wallet with demo data",
+          className: "card-futuristic border-neon-purple text-primary"
+        })
+      }
     } catch (error) {
       // Try to create wallet if it doesn't exist
       try {
-        const newWallet = await apiClient.createWallet()
+        const newWallet = await mockApiClient.createWallet()
         setBalance(newWallet.balanceNaira)
         setUsdtBalance(newWallet.balanceUSDT)
         setExchangeRate(newWallet.exchangeRate)
         setWalletAddress(newWallet.walletAddress)
         toast({
-          title: "Wallet Created",
-          description: "Your USDT wallet has been created successfully!",
+          title: "Demo Wallet Created",
+          description: "Your simulated USDT wallet has been created!",
           className: "card-futuristic border-neon-green text-primary"
         })
       } catch (createError) {
         toast({
           title: "Wallet Error",
-          description: "Failed to load or create wallet",
+          description: "Failed to load or create demo wallet",
           variant: "destructive"
         })
       }
@@ -225,7 +324,7 @@ export default function BankingPage() {
 
   const loadTransactionHistory = async () => {
     try {
-      const historyData = await apiClient.getTransactionHistory(0, 20)
+      const historyData = await mockApiClient.getTransactionHistory()
       setTransactions(historyData.transactions)
     } catch (error) {
       console.error("Failed to load transaction history:", error)
@@ -278,7 +377,7 @@ export default function BankingPage() {
         description: sendForm.description
       }
 
-      const response = await apiClient.sendUSDT(request)
+      const response = await mockApiClient.sendUSDT(request)
 
       // Update local state
       setBalance(prev => prev - amountNaira)
@@ -315,7 +414,7 @@ export default function BankingPage() {
       setCurrentField("")
 
       // Voice feedback
-      const message = `Transaction successful! Sent ${amountNaira.toLocaleString()} naira to ${request.recipientName}.`
+      const message = `Demo transaction successful! Sent ${amountNaira.toLocaleString()} naira to ${request.recipientName}.`
       if (voiceEnabled && ttsSupported && textToSpeechEnabled) speak(message)
       if (subtitlesEnabled) {
         setCurrentSubtitle(message)
@@ -323,8 +422,8 @@ export default function BankingPage() {
       }
 
       toast({
-        title: "Transaction Successful!",
-        description: `₦${amountNaira.toLocaleString()} sent successfully`,
+        title: "Demo Transaction Successful!",
+        description: `₦${amountNaira.toLocaleString()} sent successfully (simulated)`,
         className: "card-futuristic border-neon-green text-primary"
       })
 
@@ -347,7 +446,7 @@ export default function BankingPage() {
     let action = ""
 
     if (command.includes("balance")) {
-      response = `Your current balance is ${balance.toLocaleString()} naira, equivalent to ${usdtBalance.toFixed(2)} USDT.`
+      response = `Your current demo balance is ${balance.toLocaleString()} naira, equivalent to ${usdtBalance.toFixed(2)} USDT.`
       action = "Balance Accessed"
     } else if (command.includes("send") || command.includes("transfer")) {
       response = "Opening send dialog. You can now enter recipient details."
@@ -363,7 +462,7 @@ export default function BankingPage() {
         }
       }, 1000)
     } else if (command.includes("history")) {
-      response = "Displaying transaction history."
+      response = "Displaying demo transaction history."
       action = "Transaction History Accessed"
       setActiveTab("history")
     } else if (command.includes("wallet")) {
@@ -410,13 +509,13 @@ export default function BankingPage() {
 
   const handleBalanceCheck = () => {
     if (hapticEnabled && navigator.vibrate) navigator.vibrate(50)
-    const message = `Balance check complete. Current balance: ${balance.toLocaleString()} naira, equivalent to ${usdtBalance.toFixed(2)} USDT.`
+    const message = `Balance check complete. Current demo balance: ${balance.toLocaleString()} naira, equivalent to ${usdtBalance.toFixed(2)} USDT.`
     if (voiceEnabled && ttsSupported && textToSpeechEnabled) speak(message)
     if (subtitlesEnabled) {
       setCurrentSubtitle(message)
       setTimeout(() => setCurrentSubtitle(""), 4000)
     }
-    toast({ title: "Balance Accessed", description: message })
+    toast({ title: "Demo Balance Accessed", description: message })
   }
 
   const copyToClipboard = (text: string) => {
@@ -425,7 +524,11 @@ export default function BankingPage() {
   }
 
   const handleLogout = () => {
-    localStorage.removeItem("auth_token")
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem("auth_token")
+      localStorage.removeItem("user_email")
+      localStorage.removeItem("login_method")
+    }
     toast({ title: "Logged Out Successfully" })
     router.push("/")
   }
@@ -453,6 +556,21 @@ export default function BankingPage() {
     }
   }
 
+  const handleQuickDemo = () => {
+    setSendForm({
+      recipientAddress: "0x742d35Cc6634C0532925a3b8D654d22a73ED9c8b",
+      recipientName: "Demo User",
+      amountNaira: "5000",
+      description: "Demo transaction"
+    })
+    setIsSendDialogOpen(true)
+    toast({
+      title: "Demo Transaction Loaded",
+      description: "Pre-filled demo transaction ready to send",
+      className: "card-futuristic border-neon-cyan text-primary"
+    })
+  }
+
   return (
       <div className={`min-h-screen bg-surface scan-lines ${highContrastEnabled ? "contrast-125 saturate-150" : ""}`}>
         <header className="bg-surface-elevated/80 backdrop-blur-md border-b border-neon-cyan/30 shadow-neon-cyan/20 sticky top-0 z-50">
@@ -463,6 +581,12 @@ export default function BankingPage() {
               </div>
               <h1 className="text-3xl font-bold text-gradient font-mono">INKLUZIV</h1>
               <span className="text-secondary text-sm font-mono">USDT Wallet</span>
+              {demoMode && (
+                  <Badge className="bg-neon-purple text-black shadow-neon-purple font-mono">
+                    <Database className="w-3 h-3 mr-1" />
+                    DEMO MODE
+                  </Badge>
+              )}
             </div>
             <div className="flex items-center space-x-4">
               <Button variant="outline" size="sm" onClick={handleLogout} className="border-neon-orange text-neon-orange hover:bg-neon-orange hover:text-black bg-transparent transition-smooth font-mono">
@@ -533,6 +657,35 @@ export default function BankingPage() {
                   )}
                 </CardContent>
               </Card>
+
+              {/* Demo Controls */}
+              <Card className="mt-4 card-futuristic transition-smooth border-neon-purple/50">
+                <CardHeader>
+                  <CardTitle className="text-lg text-primary font-mono flex items-center">
+                    <Database className="w-5 h-5 mr-2 text-neon-purple" />
+                    DEMO CONTROLS
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-2">
+                  <Button
+                      onClick={handleQuickDemo}
+                      size="sm"
+                      className="w-full btn-neon-purple font-mono text-xs"
+                  >
+                    QUICK DEMO SEND
+                  </Button>
+                  <Button
+                      onClick={() => setBalance(prev => prev + 50000)}
+                      size="sm"
+                      className="w-full btn-neon-green font-mono text-xs"
+                  >
+                    ADD ₦50,000
+                  </Button>
+                  <p className="text-xs text-muted-foreground font-mono text-center">
+                    Demo functions for testing
+                  </p>
+                </CardContent>
+              </Card>
             </div>
 
             {/* Main Content */}
@@ -564,7 +717,7 @@ export default function BankingPage() {
                       className="card-futuristic cursor-pointer transition-smooth"
                   >
                     <CardHeader className="text-center py-20">
-                      <CardTitle className="text-secondary text-3xl font-mono">WALLET BALANCE</CardTitle>
+                      <CardTitle className="text-secondary text-3xl font-mono">DEMO WALLET BALANCE</CardTitle>
                       <div className="text-7xl font-bold text-gradient my-4 text-glow font-mono">
                         ₦{balance.toLocaleString()}
                       </div>
@@ -574,6 +727,11 @@ export default function BankingPage() {
                       <Badge className="bg-neon-green text-black text-xl px-8 py-4 shadow-neon-green font-mono">
                         TAP OR SAY "CHECK BALANCE"
                       </Badge>
+                      {demoMode && (
+                          <p className="text-xs text-muted-foreground mt-4 font-mono">
+                            Simulated balance - no real cryptocurrency involved
+                          </p>
+                      )}
                     </CardHeader>
                   </Card>
 
@@ -588,8 +746,9 @@ export default function BankingPage() {
                     <CardContent className="space-y-4">
                       <div className="flex items-center justify-between p-4 bg-surface rounded-lg">
                         <div>
-                          <Label className="text-primary font-mono">Wallet Address</Label>
+                          <Label className="text-primary font-mono">Demo Wallet Address</Label>
                           <p className="text-neon-cyan font-mono text-sm break-all">{walletAddress}</p>
+                          <p className="text-xs text-muted-foreground font-mono">Simulated address</p>
                         </div>
                         <Button
                             variant="outline"
@@ -630,6 +789,9 @@ export default function BankingPage() {
                               </Button>
                           ))}
                         </div>
+                        <p className="text-xs text-muted-foreground font-mono text-center">
+                          Demo transactions only
+                        </p>
                       </CardContent>
                     </Card>
 
@@ -669,6 +831,11 @@ export default function BankingPage() {
                               </div>
                             </div>
                         ))}
+                        {transactions.length === 0 && (
+                            <p className="text-center text-muted-foreground font-mono text-sm py-4">
+                              No demo transactions yet
+                            </p>
+                        )}
                       </CardContent>
                     </Card>
                   </div>
@@ -680,10 +847,10 @@ export default function BankingPage() {
                     <CardHeader>
                       <CardTitle className="text-primary text-3xl flex items-center font-mono">
                         <Send className="w-8 h-8 mr-4 text-neon-green" />
-                        SEND USDT
+                        SEND USDT (DEMO)
                       </CardTitle>
                       <CardDescription className="text-secondary font-mono">
-                        Send USDT using Naira amounts. Conversion happens automatically.
+                        Send simulated USDT using Naira amounts. No real transactions occur.
                       </CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -741,7 +908,7 @@ export default function BankingPage() {
                           </div>
                           {sendForm.amountNaira && (
                               <p className="text-neon-cyan text-sm font-mono">
-                                ≈ {(parseFloat(sendForm.amountNaira) / exchangeRate).toFixed(6)} USDT
+                                ≈ {(parseFloat(sendForm.amountNaira) / exchangeRate).toFixed(6)} USDT (simulated)
                               </p>
                           )}
                         </div>
@@ -771,7 +938,7 @@ export default function BankingPage() {
                             {isLoading ? (
                                 <>
                                   <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                                  SENDING USDT...
+                                  SENDING DEMO USDT...
                                 </>
                             ) : isConfirming ? (
                                 <>
@@ -781,7 +948,7 @@ export default function BankingPage() {
                             ) : (
                                 <>
                                   <Send className="w-5 h-5 mr-2" />
-                                  {currentField ? 'VOICE SEND' : 'SEND USDT'}
+                                  {currentField ? 'VOICE SEND' : 'SEND DEMO USDT'}
                                 </>
                             )}
                           </Button>
@@ -813,17 +980,24 @@ export default function BankingPage() {
                     <CardHeader>
                       <CardTitle className="text-primary text-3xl flex items-center font-mono">
                         <History className="w-8 h-8 mr-4 text-neon-purple" />
-                        TRANSACTION HISTORY
+                        DEMO TRANSACTION HISTORY
                       </CardTitle>
                       <CardDescription className="text-secondary font-mono">
-                        Complete history of your USDT transactions
+                        Simulated history of your USDT transactions
                       </CardDescription>
                     </CardHeader>
                     <CardContent>
                       {transactions.length === 0 ? (
                           <div className="text-center py-12">
                             <History className="w-16 h-16 text-secondary mx-auto mb-4" />
-                            <p className="text-secondary font-mono">No transactions yet</p>
+                            <p className="text-secondary font-mono">No demo transactions yet</p>
+                            <Button
+                                onClick={handleQuickDemo}
+                                className="mt-4 btn-neon-purple font-mono"
+                                size="sm"
+                            >
+                              CREATE DEMO TRANSACTION
+                            </Button>
                           </div>
                       ) : (
                           <div className="space-y-4">
@@ -852,6 +1026,9 @@ export default function BankingPage() {
                                               {transaction.description}
                                             </p>
                                         )}
+                                        <Badge className="bg-neon-purple/20 text-neon-purple border border-neon-purple font-mono text-xs">
+                                          DEMO TRANSACTION
+                                        </Badge>
                                       </div>
                                     </div>
                                     <div className="text-right space-y-2">
@@ -941,6 +1118,36 @@ export default function BankingPage() {
                             className="data-[state=checked]:bg-neon-green"
                         />
                       </div>
+                      <div className="flex items-center justify-between p-4 bg-surface rounded-lg">
+                        <Label htmlFor="tts-enabled" className="text-lg text-primary font-mono">
+                          Text-to-Speech
+                        </Label>
+                        <Switch
+                            id="tts-enabled"
+                            checked={textToSpeechEnabled}
+                            onCheckedChange={setTextToSpeechEnabled}
+                            className="data-[state=checked]:bg-neon-green"
+                        />
+                      </div>
+
+                      {/* Demo Mode Info */}
+                      <div className="p-4 bg-neon-purple/10 border border-neon-purple rounded-lg">
+                        <div className="flex items-center space-x-3 mb-3">
+                          <Database className="w-5 h-5 text-neon-purple" />
+                          <Label className="text-lg text-neon-purple font-mono">
+                            DEMO MODE ACTIVE
+                          </Label>
+                        </div>
+                        <p className="text-sm text-muted-foreground font-mono mb-2">
+                          This is a demonstration version with simulated data:
+                        </p>
+                        <ul className="text-xs text-muted-foreground font-mono space-y-1">
+                          <li>• No real blockchain transactions</li>
+                          <li>• Simulated wallet balances and addresses</li>
+                          <li>• Mock transaction history</li>
+                          <li>• Local storage for authentication</li>
+                        </ul>
+                      </div>
                     </CardContent>
                   </Card>
                 </TabsContent>
@@ -953,9 +1160,9 @@ export default function BankingPage() {
         <Dialog open={isSendDialogOpen} onOpenChange={setIsSendDialogOpen}>
           <DialogContent className="card-futuristic border-holographic max-w-md">
             <DialogHeader>
-              <DialogTitle className="text-primary font-mono text-2xl">SEND USDT</DialogTitle>
+              <DialogTitle className="text-primary font-mono text-2xl">SEND DEMO USDT</DialogTitle>
               <DialogDescription className="text-secondary font-mono">
-                Enter recipient details and amount in Naira
+                Enter recipient details and amount in Naira (simulation only)
               </DialogDescription>
             </DialogHeader>
             <form onSubmit={handleSendUSDT} className="space-y-4">
@@ -1009,7 +1216,7 @@ export default function BankingPage() {
                 />
                 {sendForm.amountNaira && (
                     <p className="text-neon-cyan text-sm font-mono">
-                      ≈ {(parseFloat(sendForm.amountNaira) / exchangeRate).toFixed(6)} USDT
+                      ≈ {(parseFloat(sendForm.amountNaira) / exchangeRate).toFixed(6)} USDT (simulated)
                     </p>
                 )}
               </div>
@@ -1028,7 +1235,7 @@ export default function BankingPage() {
                   ) : (
                       <>
                         <Send className="w-4 h-4 mr-2" />
-                        SEND
+                        SEND DEMO
                       </>
                   )}
                 </Button>
@@ -1042,8 +1249,7 @@ export default function BankingPage() {
                   CANCEL
                 </Button>
               </div>
-            </form>
-          </DialogContent>
+            </form>          </DialogContent>
         </Dialog>
       </div>
   )
