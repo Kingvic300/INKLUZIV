@@ -35,6 +35,7 @@ import {
 } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { useSpeechRecognition, useSpeechSynthesis } from "@/hooks/use-speech"
+import { useAccessibility } from "@/components/AccessibilityWrapper"
 import Link from "next/link"
 import { Wallet } from "lucide-react"
 
@@ -66,6 +67,7 @@ export default function UnifiedDashboardPage() {
 
   const { toast } = useToast()
   const router = useRouter()
+  const { announce } = useAccessibility()
 
   // --- HOOKS ---
   const { isListening, transcript, isSupported: speechSupported, startListening, stopListening } = useSpeechRecognition()
@@ -130,6 +132,7 @@ export default function UnifiedDashboardPage() {
     }
 
     if (voiceEnabled && ttsSupported && textToSpeechEnabled) speak(response)
+    announce(response)
     if (subtitlesEnabled) {
       setCurrentSubtitle(response)
       setTimeout(() => setCurrentSubtitle(""), 4000)
@@ -188,6 +191,7 @@ export default function UnifiedDashboardPage() {
     if (hapticEnabled && navigator.vibrate) navigator.vibrate(50)
     const message = `Balance check complete. Current balance: ${balance.toLocaleString()} naira.`
     if (voiceEnabled && ttsSupported && textToSpeechEnabled) speak(message)
+    announce(message)
     if (subtitlesEnabled) {
       setCurrentSubtitle(message)
       setTimeout(() => setCurrentSubtitle(""), 4000)
@@ -197,15 +201,19 @@ export default function UnifiedDashboardPage() {
 
   const handleVoiceAuthToggle = (enabled: boolean) => {
     setVoiceAuthEnabled(enabled)
+    const message = enabled ? "Voice Authentication Enabled" : "Voice Authentication Disabled"
+    announce(message)
     toast({ title: enabled ? "Voice Authentication Enabled" : "Voice Authentication Disabled" })
   }
 
   const handleLogout = () => {
+    announce("Logging out of dashboard")
     toast({ title: "Logged Out Successfully" })
     router.push("/")
   }
 
   const handleLogoutAllDevices = () => {
+    announce("Logging out from all devices")
     toast({ title: "Logged Out from All Devices", description: "All active sessions have been terminated." })
     router.push("/")
   }

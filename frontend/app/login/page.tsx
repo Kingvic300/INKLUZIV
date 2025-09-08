@@ -12,6 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Mic, MicOff, Mail, Lock, ArrowLeft, Terminal } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { useSpeechRecognition, useSpeechSynthesis } from "@/hooks/use-speech"
+import { useAccessibility } from "@/components/AccessibilityWrapper"
 
 // Mock API client to simulate backend responses
 const mockApiClient = {
@@ -90,6 +91,7 @@ export default function SimulatedLoginPage() {
 
     const { toast } = useToast()
     const router = useRouter()
+    const { announce } = useAccessibility()
     const { isListening, transcript, isSupported: speechSupported, startListening, stopListening } = useSpeechRecognition()
     const { speak, isSupported: ttsSupported } = useSpeechSynthesis()
 
@@ -233,6 +235,7 @@ export default function SimulatedLoginPage() {
 
             if (voiceEnabled && ttsSupported) {
                 speak("Login successful! Redirecting to your USDT wallet.")
+                announce("Login successful! Redirecting to USDT wallet.")
                 setCurrentSubtitle("Login successful! Redirecting to wallet.")
                 setTimeout(() => setCurrentSubtitle(""), 3000)
             }
@@ -249,6 +252,7 @@ export default function SimulatedLoginPage() {
 
             if (voiceEnabled && ttsSupported) {
                 speak(`Login failed: ${errorMessage}`)
+                announce(`Login failed: ${errorMessage}`)
                 setCurrentSubtitle(`Login failed: ${errorMessage}`)
                 setTimeout(() => setCurrentSubtitle(""), 4000)
             }
@@ -288,6 +292,7 @@ export default function SimulatedLoginPage() {
 
             if (voiceEnabled && ttsSupported) {
                 speak("Voice authentication successful! Redirecting to your USDT wallet.")
+                announce("Voice authentication successful! Redirecting to USDT wallet.")
                 setCurrentSubtitle("Voice authentication successful!")
                 setTimeout(() => setCurrentSubtitle(""), 3000)
             }
@@ -307,6 +312,7 @@ export default function SimulatedLoginPage() {
 
             if (voiceEnabled && ttsSupported) {
                 speak(`Voice authentication failed: ${errorMessage}`)
+                announce(`Voice authentication failed: ${errorMessage}`)
                 setCurrentSubtitle(`Authentication failed: ${errorMessage}`)
                 setTimeout(() => setCurrentSubtitle(""), 4000)
             }
