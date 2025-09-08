@@ -13,6 +13,7 @@ import { Mic, MicOff, User, Mail, Lock, ArrowLeft, Terminal } from "lucide-react
 import { useToast } from "@/hooks/use-toast"
 import { useSpeechRecognition, useSpeechSynthesis } from "@/hooks/use-speech"
 import { apiClient } from "@/lib/api"
+import { useAccessibility } from "@/components/AccessibilityWrapper"
 
 // a11y: simple sr-only utility if not present globally (Tailwind users often have this)
 const SrOnly = ({ children }: { children: React.ReactNode }) => (
@@ -40,6 +41,7 @@ export default function RegisterPage() {
 
   const router = useRouter()
   const { toast } = useToast()
+  const { announce } = useAccessibility()
   const { isListening, transcript, isSupported: speechSupported, startListening, stopListening } = useSpeechRecognition()
   const { speak, isSupported: ttsSupported } = useSpeechSynthesis()
 
@@ -236,6 +238,7 @@ export default function RegisterPage() {
       
       if (voiceEnabled && ttsSupported) {
         speak("Wallet account created successfully! Please check your email for verification.")
+        announce("Wallet account created successfully! Check your email for verification.")
         setCurrentSubtitle("Account created! Check email for verification.")
         setTimeout(() => setCurrentSubtitle(""), 4000)
       }
@@ -257,6 +260,7 @@ export default function RegisterPage() {
       
       if (voiceEnabled && ttsSupported) {
         speak(`Registration failed: ${errorMessage}`)
+        announce(`Registration failed: ${errorMessage}`)
         setCurrentSubtitle(`Registration failed: ${errorMessage}`)
         setTimeout(() => setCurrentSubtitle(""), 4000)
       }
