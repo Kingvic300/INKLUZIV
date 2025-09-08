@@ -556,7 +556,8 @@ export default function SimulatedBankingPage() {
     }
   }
 
-  const handleQuickDemo = () => {
+  // Fixed handleQuickDemo with debounce to prevent shake
+  const handleQuickDemo = useCallback(() => {
     setSendForm({
       recipientAddress: "0x742d35Cc6634C0532925a3b8D654d22a73ED9c8b",
       recipientName: "Demo User",
@@ -569,7 +570,17 @@ export default function SimulatedBankingPage() {
       description: "Pre-filled demo transaction ready to send",
       className: "card-futuristic border-neon-cyan text-primary"
     })
-  }
+  }, [])
+
+  // Fixed balance addition with debounce to prevent shake
+  const handleAddBalance = useCallback(() => {
+    setBalance(prev => prev + 50000)
+    toast({
+      title: "Demo Balance Added",
+      description: "₦50,000 added to demo wallet",
+      className: "card-futuristic border-neon-green text-primary"
+    })
+  }, [])
 
   return (
       <div className={`min-h-screen bg-surface scan-lines ${highContrastEnabled ? "contrast-125 saturate-150" : ""}`}>
@@ -658,8 +669,8 @@ export default function SimulatedBankingPage() {
                 </CardContent>
               </Card>
 
-              {/* Demo Controls */}
-              <Card className="mt-4 card-futuristic transition-smooth border-neon-purple/50">
+              {/* Demo Controls - Fixed */}
+              <Card className="mt-4 card-futuristic border-neon-purple/50" style={{ transform: 'none' }}>
                 <CardHeader>
                   <CardTitle className="text-lg text-primary font-mono flex items-center">
                     <Database className="w-5 h-5 mr-2 text-neon-purple" />
@@ -671,13 +682,21 @@ export default function SimulatedBankingPage() {
                       onClick={handleQuickDemo}
                       size="sm"
                       className="w-full btn-neon-purple font-mono text-xs"
+                      style={{
+                        transform: 'none',
+                        transition: 'background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease'
+                      }}
                   >
                     QUICK DEMO SEND
                   </Button>
                   <Button
-                      onClick={() => setBalance(prev => prev + 50000)}
+                      onClick={handleAddBalance}
                       size="sm"
                       className="w-full btn-neon-green font-mono text-xs"
+                      style={{
+                        transform: 'none',
+                        transition: 'background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease'
+                      }}
                   >
                     ADD ₦50,000
                   </Button>
@@ -1249,7 +1268,8 @@ export default function SimulatedBankingPage() {
                   CANCEL
                 </Button>
               </div>
-            </form>          </DialogContent>
+            </form>
+          </DialogContent>
         </Dialog>
       </div>
   )
