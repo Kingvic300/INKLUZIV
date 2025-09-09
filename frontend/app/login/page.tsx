@@ -102,7 +102,7 @@ export default function SimulatedLoginPage() {
     useEffect(() => {
         if (voiceEnabled && ttsSupported) {
             const timer = setTimeout(() => {
-                const welcomeMessage = "Welcome to INKLUZIV wallet authentication. Your credentials are ready. Choose email login or try voice authentication for your USDT wallet."
+                const welcomeMessage = "Welcome to INKLUZIV DeFi gateway. Your credentials are ready. Access your voice-powered yield farming wallet."
                 speak(welcomeMessage)
                 setCurrentSubtitle(welcomeMessage)
                 setTimeout(() => setCurrentSubtitle(""), 10000)
@@ -234,15 +234,15 @@ export default function SimulatedLoginPage() {
             })
 
             if (voiceEnabled && ttsSupported) {
-                speak("Login successful! Redirecting to your USDT wallet.")
-                announce("Login successful! Redirecting to USDT wallet.")
-                setCurrentSubtitle("Login successful! Redirecting to wallet.")
+                speak("Login successful! Redirecting to your DeFi gateway.")
+                announce("Login successful! Redirecting to DeFi gateway.")
+                setCurrentSubtitle("Login successful! Redirecting to DeFi gateway.")
                 setTimeout(() => setCurrentSubtitle(""), 3000)
             }
 
             toast({
                 title: "Login Successful",
-                description: "Welcome back! Redirecting to your USDT wallet...",
+                description: "Welcome back! Redirecting to your DeFi gateway...",
                 className: "card-futuristic border-neon-green text-primary"
             })
 
@@ -291,15 +291,15 @@ export default function SimulatedLoginPage() {
             const response = await mockApiClient.voiceLogin(file, email)
 
             if (voiceEnabled && ttsSupported) {
-                speak("Voice authentication successful! Redirecting to your USDT wallet.")
-                announce("Voice authentication successful! Redirecting to USDT wallet.")
+                speak("Voice authentication successful! Redirecting to your DeFi gateway.")
+                announce("Voice authentication successful! Redirecting to DeFi gateway.")
                 setCurrentSubtitle("Voice authentication successful!")
                 setTimeout(() => setCurrentSubtitle(""), 3000)
             }
 
             toast({
                 title: "Authentication Successful!",
-                description: "Welcome back! Redirecting to your wallet...",
+                description: "Welcome back! Redirecting to your DeFi gateway...",
                 className: "card-futuristic border-neon-green text-primary"
             })
 
@@ -369,7 +369,7 @@ export default function SimulatedLoginPage() {
                             <Terminal className="w-6 h-6 text-neon-cyan" />
                             <span className="text-neon-cyan text-sm font-mono tracking-widest">WALLET AUTHENTICATION</span>
                         </div>
-                        <CardTitle className="text-2xl text-primary font-mono">Access Your USDT Wallet</CardTitle>
+                        <CardTitle className="text-2xl text-primary font-mono">Access DeFi Gateway</CardTitle>
                         <CardDescription className="text-muted-foreground">Choose your authentication method for blockchain access</CardDescription>
                     </CardHeader>
                     <CardContent>

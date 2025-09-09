@@ -277,8 +277,8 @@ export default function UnifiedDashboardPage() {
                 <Button onClick={handleChangePassword} variant="outline" className="w-full justify-start bg-transparent border-neon-green text-neon-green hover:bg-neon-green hover:text-black transition-smooth font-mono"><Key className="w-4 h-4 mr-2" />CHANGE PASSWORD</Button>
                 <Link href="/banking">
                   <Button variant="outline" className="w-full justify-start bg-transparent border-neon-purple text-neon-purple hover:bg-neon-purple hover:text-black transition-smooth font-mono">
-                    <Wallet className="w-4 h-4 mr-2" />
-                    ACCESS USDT WALLET
+                    <TrendingUp className="w-4 h-4 mr-2" />
+                    ACCESS DEFI GATEWAY
                   </Button>
                 </Link>
               </CardContent>

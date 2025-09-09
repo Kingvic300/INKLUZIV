@@ -62,6 +62,7 @@ export default function RegisterPage() {
     if (voiceEnabled && ttsSupported) {
       const timer = setTimeout(() => {
         const welcomeMessage = "Welcome to INKLUZIV wallet registration. Create your account using standard form or voice registration for your USDT wallet."
+        const welcomeMessage = "Welcome to INKLUZIV DeFi gateway registration. Create your account to start earning yield with voice commands."
         speak(welcomeMessage)
         setCurrentSubtitle(welcomeMessage)
         setTimeout(() => setCurrentSubtitle(""), 8000)
@@ -406,10 +407,10 @@ export default function RegisterPage() {
               <span className="text-neon-cyan text-sm font-mono tracking-widest">WALLET REGISTRATION</span>
             </div>
             <CardTitle id="create-account-title" className="text-2xl text-primary font-mono">
-              Create USDT Wallet
+              Create DeFi Gateway
             </CardTitle>
             <CardDescription id="registration-method-desc" className="text-muted-foreground">
-              Choose your preferred wallet creation method
+              Choose your preferred DeFi gateway creation method
             </CardDescription>
           </CardHeader>
 
