@@ -1,5 +1,5 @@
-// API client for INKLUZIV backend - Cyberpunk Edition
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080"
+// API client for INKLUZIV backend - Blockchain Edition
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://inkluziv.onrender.com"
 
 export class APIClient {
   private baseURL: string
@@ -21,6 +21,7 @@ export class APIClient {
     }
 
     if (this.token) {
+      // @ts-ignore
       headers["Authorization"] = `Bearer ${this.token}`
     }
 
@@ -30,7 +31,8 @@ export class APIClient {
     })
 
     if (!response.ok) {
-      throw new Error(`[API_ERROR: ${response.status}]`)
+      const errorData = await response.json().catch(() => ({}))
+      throw new Error(errorData.message || `API Error: ${response.status}`)
     }
 
     return response.json()
@@ -51,7 +53,8 @@ export class APIClient {
     })
 
     if (!response.ok) {
-      throw new Error(`[API_ERROR: ${response.status}]`)
+      const errorData = await response.json().catch(() => ({}))
+      throw new Error(errorData.message || `API Error: ${response.status}`)
     }
 
     return response.json()
@@ -63,9 +66,29 @@ export class APIClient {
     email: string
     password: string
   }) {
+    // First send verification OTP
+    await this.request("/users/send-verification-otp", {
+      method: "POST",
+      body: JSON.stringify({
+        email: userData.email,
+        password: userData.password,
+        role: "USER"
+      }),
+    })
+
+    // Note: In real implementation, you'd need to collect OTP from user
+    // For demo purposes, we'll simulate the registration completion
+    return { message: "Registration initiated. Please check your email for OTP." }
+  }
+
+  async completeRegistration(email: string, otp: string) {
     return this.request("/users/register", {
       method: "POST",
-      body: JSON.stringify(userData),
+      body: JSON.stringify({
+        email,
+        otp,
+        role: "USER"
+      }),
     })
   }
 
@@ -75,7 +98,10 @@ export class APIClient {
   }) {
     const response = await this.request("/users/login", {
       method: "POST",
-      body: JSON.stringify(credentials),
+      body: JSON.stringify({
+        ...credentials,
+        role: "USER"
+      }),
     })
 
     if (response.token) {
@@ -108,11 +134,38 @@ export class APIClient {
     return response
   }
 
+  // Wallet methods
+  async getWalletBalance() {
+    return this.request("/transactions/balance")
+  }
+
+  async createWallet() {
+    return this.request("/transactions/create-wallet", {
+      method: "POST",
+    })
+  }
+
+  async sendUSDT(data: {
+    recipientAddress: string
+    recipientName: string
+    amountNaira: number
+    description: string
+  }) {
+    return this.request("/transactions/send-usdt", {
+      method: "POST",
+      body: JSON.stringify(data),
+    })
+  }
+
+  async getTransactionHistory(page: number = 0, size: number = 20) {
+    return this.request(`/transactions/history?page=${page}&size=${size}`)
+  }
+
   // OTP methods
   async sendVerificationOTP(email: string) {
     return this.request("/users/send-verification-otp", {
       method: "POST",
-      body: JSON.stringify({ email }),
+      body: JSON.stringify({ email, role: "USER" }),
     })
   }
 
@@ -137,8 +190,11 @@ export class APIClient {
 
   // Profile methods
   async updateProfile(profileData: {
-    name?: string
+    firstName?: string
+    lastName?: string
     email?: string
+    phoneNumber?: string
+    location?: string
   }) {
     return this.request("/users/update-profile", {
       method: "PUT",
@@ -160,20 +216,20 @@ export class APIClient {
 
   // Voice authentication methods
   async voiceSignup(data: {
-    name: string
     email: string
+    role: string
     voiceSample: File
   }) {
     const formData = new FormData()
-    formData.append("name", data.name)
     formData.append("email", data.email)
+    formData.append("role", data.role)
     formData.append("voiceSample", data.voiceSample)
 
     return this.uploadRequest("/users/voice-signup", formData)
   }
 
   async completeVoiceRegistration(data: {
-    registrationId: string
+    email: string
     otp: string
   }) {
     return this.request("/users/complete-voice-registration", {
@@ -182,9 +238,10 @@ export class APIClient {
     })
   }
 
-  async voiceLogin(voiceSample: File) {
+  async voiceLogin(voiceSample: File, email: string) {
     const formData = new FormData()
     formData.append("voiceSample", voiceSample)
+    formData.append("email", email)
 
     const response = await this.uploadRequest("/users/voice-login", formData)
 

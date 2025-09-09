@@ -35,6 +35,9 @@ import {
 } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { useSpeechRecognition, useSpeechSynthesis } from "@/hooks/use-speech"
+import { useAccessibility } from "@/components/AccessibilityWrapper"
+import Link from "next/link"
+import { Wallet, TrendingUp } from "lucide-react"
 
 // Initial Transaction Data
 const initialTransactions = [
@@ -64,6 +67,7 @@ export default function UnifiedDashboardPage() {
 
   const { toast } = useToast()
   const router = useRouter()
+  const { announce } = useAccessibility()
 
   // --- HOOKS ---
   const { isListening, transcript, isSupported: speechSupported, startListening, stopListening } = useSpeechRecognition()
@@ -128,6 +132,7 @@ export default function UnifiedDashboardPage() {
     }
 
     if (voiceEnabled && ttsSupported && textToSpeechEnabled) speak(response)
+    announce(response)
     if (subtitlesEnabled) {
       setCurrentSubtitle(response)
       setTimeout(() => setCurrentSubtitle(""), 4000)
@@ -186,6 +191,7 @@ export default function UnifiedDashboardPage() {
     if (hapticEnabled && navigator.vibrate) navigator.vibrate(50)
     const message = `Balance check complete. Current balance: ${balance.toLocaleString()} naira.`
     if (voiceEnabled && ttsSupported && textToSpeechEnabled) speak(message)
+    announce(message)
     if (subtitlesEnabled) {
       setCurrentSubtitle(message)
       setTimeout(() => setCurrentSubtitle(""), 4000)
@@ -195,15 +201,19 @@ export default function UnifiedDashboardPage() {
 
   const handleVoiceAuthToggle = (enabled: boolean) => {
     setVoiceAuthEnabled(enabled)
+    const message = enabled ? "Voice Authentication Enabled" : "Voice Authentication Disabled"
+    announce(message)
     toast({ title: enabled ? "Voice Authentication Enabled" : "Voice Authentication Disabled" })
   }
 
   const handleLogout = () => {
+    announce("Logging out of dashboard")
     toast({ title: "Logged Out Successfully" })
     router.push("/")
   }
 
   const handleLogoutAllDevices = () => {
+    announce("Logging out from all devices")
     toast({ title: "Logged Out from All Devices", description: "All active sessions have been terminated." })
     router.push("/")
   }
@@ -232,7 +242,7 @@ export default function UnifiedDashboardPage() {
           <div className="flex items-center space-x-4">
             <Button variant="outline" size="sm" onClick={handleLogout} className="border-neon-orange text-neon-orange hover:bg-neon-orange hover:text-black bg-transparent transition-smooth font-mono">
               <LogOut className="w-4 h-4 mr-2" />
-              BACK
+              LOGOUT
             </Button>
           </div>
         </div>
@@ -265,6 +275,18 @@ export default function UnifiedDashboardPage() {
               <CardContent className="space-y-2">
                 <Button onClick={handleEditProfile} variant="outline" className="w-full justify-start bg-transparent border-neon-cyan text-neon-cyan hover:bg-neon-cyan hover:text-black transition-smooth font-mono"><User className="w-4 h-4 mr-2" />EDIT PROFILE</Button>
                 <Button onClick={handleChangePassword} variant="outline" className="w-full justify-start bg-transparent border-neon-green text-neon-green hover:bg-neon-green hover:text-black transition-smooth font-mono"><Key className="w-4 h-4 mr-2" />CHANGE PASSWORD</Button>
+                <Link href="/banking">
+                  <Button variant="outline" className="w-full justify-start bg-transparent border-neon-purple text-neon-purple hover:bg-neon-purple hover:text-black transition-smooth font-mono">
+                    <Wallet className="w-4 h-4 mr-2" />
+                    USDT WALLET
+                  </Button>
+                </Link>
+                <Link href="/defi">
+                  <Button variant="outline" className="w-full justify-start bg-transparent border-neon-green text-neon-green hover:bg-neon-green hover:text-black transition-smooth font-mono">
+                    <TrendingUp className="w-4 h-4 mr-2" />
+                    DEFI GATEWAY
+                  </Button>
+                </Link>
               </CardContent>
             </Card>
           </div>

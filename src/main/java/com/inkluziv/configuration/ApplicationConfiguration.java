@@ -51,19 +51,20 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    public WebMvcConfigurer webMvcConfigurer(){
+    public WebMvcConfigurer webMvcConfigurer() {
         return new WebMvcConfigurer() {
 
             @Override
-            public void addCorsMappings(@NonNull CorsRegistry corsRegistry){
+            public void addCorsMappings(@NonNull CorsRegistry corsRegistry) {
                 corsRegistry.addMapping("/**")
-                        .allowedOrigins("http://localhost:5173", "https://connectsphere.com")
+                        .allowedOriginPatterns("*")  // allow all origins
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
-                        .allowCredentials(true);
+                        .allowCredentials(true);    // keep if you need cookies/auth
             }
         };
     }
+
     @Bean
     public JavaMailSender javaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();

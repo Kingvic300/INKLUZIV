@@ -29,6 +29,12 @@ public class SecurityConfiguration {
                 .cors(Customizer.withDefaults())
                 .authenticationProvider(authenticationProvider)
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/users/register", "/users/login", "/users/send-verification-otp", 
+                                       "/users/send-reset-otp", "/users/reset-password", "/users/voice-signup",
+                                       "/users/complete-voice-registration", "/users/voice-login").permitAll()
+                        .anyRequest().authenticated()
+                )
                 .oauth2Login(oauth2 -> oauth2
                         .defaultSuccessUrl("/api/skill-nest/auth/users/google-callback", true)
                         .failureUrl("/api/skill-nest/auth/users/login-user?error=true")
