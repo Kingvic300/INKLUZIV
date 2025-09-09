@@ -684,7 +684,7 @@ export default function SimulatedBankingPage() {
                       className="w-full btn-neon-purple font-mono text-xs"
                       style={{
                         transform: 'none',
-                        transition: 'background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease'
+                        transition: 'none'
                       }}
                   >
                     QUICK DEMO SEND
@@ -1177,14 +1177,16 @@ export default function SimulatedBankingPage() {
 
         {/* Send USDT Dialog */}
         <Dialog open={isSendDialogOpen} onOpenChange={setIsSendDialogOpen}>
-          <DialogContent className="card-futuristic border-holographic max-w-md">
+          <DialogContent className="card-futuristic border-holographic max-w-md p-6 sm:rounded-lg shadow-lg">
             <DialogHeader>
               <DialogTitle className="text-primary font-mono text-2xl">SEND DEMO USDT</DialogTitle>
               <DialogDescription className="text-secondary font-mono">
                 Enter recipient details and amount in Naira (simulation only)
               </DialogDescription>
             </DialogHeader>
+
             <form onSubmit={handleSendUSDT} className="space-y-4">
+              {/* Recipient Address */}
               <div className="space-y-2">
                 <Label htmlFor="dialog-address" className="text-primary font-mono">
                   Recipient Address *
@@ -1193,7 +1195,9 @@ export default function SimulatedBankingPage() {
                     id="dialog-address"
                     placeholder="Enter USDT wallet address"
                     value={sendForm.recipientAddress}
-                    onChange={(e) => setSendForm(prev => ({ ...prev, recipientAddress: e.target.value }))}
+                    onChange={(e) =>
+                        setSendForm((prev) => ({ ...prev, recipientAddress: e.target.value }))
+                    }
                     onFocus={() => handleFieldFocus("recipientAddress", "Recipient Address")}
                     className="bg-surface border-border text-primary focus:border-neon-cyan font-mono"
                     required
@@ -1201,6 +1205,7 @@ export default function SimulatedBankingPage() {
                 />
               </div>
 
+              {/* Recipient Name */}
               <div className="space-y-2">
                 <Label htmlFor="dialog-name" className="text-primary font-mono">
                   Recipient Name
@@ -1209,13 +1214,16 @@ export default function SimulatedBankingPage() {
                     id="dialog-name"
                     placeholder="Enter name (optional)"
                     value={sendForm.recipientName}
-                    onChange={(e) => setSendForm(prev => ({ ...prev, recipientName: e.target.value }))}
+                    onChange={(e) =>
+                        setSendForm((prev) => ({ ...prev, recipientName: e.target.value }))
+                    }
                     onFocus={() => handleFieldFocus("recipientName", "Recipient Name")}
                     className="bg-surface border-border text-primary focus:border-neon-green font-mono"
                     disabled={isLoading}
                 />
               </div>
 
+              {/* Amount */}
               <div className="space-y-2">
                 <Label htmlFor="dialog-amount" className="text-primary font-mono">
                   Amount (Naira) *
@@ -1225,7 +1233,9 @@ export default function SimulatedBankingPage() {
                     type="number"
                     placeholder="0.00"
                     value={sendForm.amountNaira}
-                    onChange={(e) => setSendForm(prev => ({ ...prev, amountNaira: e.target.value }))}
+                    onChange={(e) =>
+                        setSendForm((prev) => ({ ...prev, amountNaira: e.target.value }))
+                    }
                     onFocus={() => handleFieldFocus("amountNaira", "Amount in Naira")}
                     className="bg-surface border-border text-primary focus:border-neon-orange font-mono text-xl"
                     required
@@ -1240,6 +1250,7 @@ export default function SimulatedBankingPage() {
                 )}
               </div>
 
+              {/* Buttons */}
               <div className="flex gap-3">
                 <Button
                     type="submit"
@@ -1271,6 +1282,7 @@ export default function SimulatedBankingPage() {
             </form>
           </DialogContent>
         </Dialog>
+
       </div>
   )
 }
